@@ -26,7 +26,7 @@ export default function Hero() {
             <div className="mt-10 flex gap-4 flex-wrap">
               <a
                 href="#projects"
-                className="bg-[--color-primary] text-black px-6 py-3 rounded-xl font-medium hover:shadow-[--shadow-glow] transition"
+                className="bg-[--color-primary] text-white px-6 py-3 rounded-xl font-medium hover:shadow-[--shadow-glow] transition"
               >
                 View Projects
               </a>
@@ -41,8 +41,20 @@ export default function Hero() {
           </div>
 
           {/* Visual */}
-          <div className="hidden lg:block relative">
+                    <div className="hidden lg:block relative">
             <div className="absolute inset-0 bg-[--color-primary]/10 blur-3xl rounded-full" />
+            
+            {/* Profile Image */}
+            <div className="relative mb-6">
+              <div className="w-64 h-64 mx-auto rounded-full overflow-hidden border-4 border-[--color-primary]/30 shadow-[--shadow-glow]">
+                <img 
+                  src="/images/profile.jpeg" 
+                  alt="Ridho Profile" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
             <div className="relative bg-[--color-surface] border border-white/10 rounded-xl p-8 shadow-[--shadow-soft]">
               <p className="text-sm text-[--color-textMuted]">
                 6+ years experience • Web & Mobile • Production-ready mindset

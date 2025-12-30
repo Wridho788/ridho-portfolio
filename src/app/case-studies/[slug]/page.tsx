@@ -1,6 +1,7 @@
 import { caseStudies } from '@/lib/caseStudies';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Navigation from '@/components/Navigation';
 
 export function generateStaticParams() {
   return caseStudies.map((cs) => ({
@@ -8,8 +9,9 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const cs = caseStudies.find((c) => c.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const cs = caseStudies.find((c) => c.slug === slug);
   
   if (!cs) {
     return {
@@ -32,13 +34,16 @@ function CaseBlock({ title, content }: { title: string; content: string }) {
   );
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }) {
-  const cs = caseStudies.find((c) => c.slug === params.slug);
+export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const cs = caseStudies.find((c) => c.slug === slug);
   if (!cs) return notFound();
 
   return (
-    <section className="py-32">
-      <div className="max-w-4xl mx-auto px-6">
+    <>
+      <Navigation />
+      <section className="py-32 pt-40">
+        <div className="max-w-4xl mx-auto px-6">
 
         {cs.image && (
           <div className="relative h-64 md:h-96 rounded-xl overflow-hidden mb-12">
@@ -89,5 +94,6 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
 
       </div>
     </section>
+    </>
   );
 }

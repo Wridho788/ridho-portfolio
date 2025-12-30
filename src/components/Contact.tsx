@@ -15,13 +15,13 @@ export default function Contact() {
         <div className="flex justify-center gap-6 flex-wrap">
           <a
             href="mailto:ridho@example.com"
-            className="bg-[--color-primary] text-black px-6 py-3 rounded-xl hover:shadow-[--shadow-glow] transition"
+            className="bg-[--color-primary] text-white px-6 py-3 rounded-xl hover:shadow-[--shadow-glow] transition"
           >
             Email Me
           </a>
 
           <a
-            href="https://linkedin.com/in/ridho"
+            href="https://www.linkedin.com/in/ridho-wahyu-nugroho-4a1544142/"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-white/20 px-6 py-3 rounded-xl hover:bg-white/5 transition"

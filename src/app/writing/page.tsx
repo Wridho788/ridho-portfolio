@@ -1,5 +1,6 @@
 import { posts } from '@/lib/posts';
 import type { Metadata } from 'next';
+import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
   title: 'Writing',
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
 
 export default function WritingPage() {
   return (
-    <section className="py-32">
+    <>
+      <Navigation />
+      <section className="py-32">
       <div className="max-w-6xl mx-auto px-6">
         <h1 className="text-4xl md:text-5xl font-bold mb-6">
           Writing
@@ -46,5 +49,6 @@ export default function WritingPage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { posts } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import Navigation from '@/components/Navigation';
 
 export function generateStaticParams() {
   return posts.map((post) => ({
@@ -8,8 +9,9 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const post = posts.find((p) => p.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = posts.find((p) => p.slug === slug);
   
   if (!post) {
     return {
@@ -119,14 +121,17 @@ const articleContent: Record<string, React.ReactElement> = {
   ),
 };
 
-export default function PostPage({ params }: { params: { slug: string } }) {
-  const post = posts.find((p) => p.slug === params.slug);
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = posts.find((p) => p.slug === slug);
   if (!post) return notFound();
 
-  const content = articleContent[params.slug];
+  const content = articleContent[slug];
 
   return (
-    <article className="py-32">
+    <>
+      <Navigation />
+      <article className="py-32">
       <div className="max-w-3xl mx-auto px-6">
 
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -158,5 +163,6 @@ export default function PostPage({ params }: { params: { slug: string } }) {
 
       </div>
     </article>
+    </>
   );
 }
