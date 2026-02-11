@@ -10,60 +10,44 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: 'ERP–POS Mobile Application',
+    title: 'Internal & Public Web Applications',
     description:
-      'Cross-platform ERP–POS mobile application used for daily sales operations, inventory tracking, and reporting.',
-    stack: ['React Native', 'Expo', 'TypeScript', 'Zustand', 'React Query'],
-    role: 'Frontend & Mobile Engineer',
-    highlight: 'Handled scalable state management and offline-ready data flow.',
-    slug: 'erp-pos',
-    image: '/images/erp-pos.jpg',
+      'Enterprise internal systems and public-facing web applications built to support business operations and user-facing workflows.',
+    stack: ['React.js', 'Next.js', 'TypeScript', 'Zustand', 'React Query'],
+    role: 'Frontend Web Engineer',
+    highlight:
+      'Designed scalable frontend architecture with clear separation of concerns, reusable components, and structured client/server state management.',
+    slug: 'internal-public-web',
+    image: '/images/internal-web-apps.png',
   },
   {
-    title: 'Stock Trading Application',
+    title: 'Internal Mobile Application',
     description:
-      'Native Android stock trading application with real-time market data integration, portfolio management, and secure transaction handling.',
-    stack: ['Kotlin', 'Android SDK', 'Retrofit', 'Room Database', 'MVVM'],
-    role: 'Mobile Engineer (Android)',
-    highlight: 'Ensured performance, security, and reliability in financial transactions.',
-    slug: 'stock-trading',
-    image: '/images/nirvana-apps.jpeg',
-  },
-  {
-    title: 'E-commerce & Marketplace Platform',
-    description:
-      'Full-featured e-commerce and marketplace web application with product catalog, cart management, and payment integration.',
-    stack: ['React', 'TypeScript', 'Next.js', 'Redux', 'Tailwind CSS'],
-    role: 'Frontend Engineer',
-    highlight: 'Emphasized clean architecture, maintainable UI systems, and seamless API integration.',
-    slug: 'marketplace',
-    image: '/images/nirvana-ecommerce-web.png',
-  },
-  {
-    title: 'Stock Opname System',
-    description:
-      'Inventory management system for tracking stock levels, managing warehouse operations, and generating inventory reports.',
-    stack: ['React Native', 'TypeScript', 'Redux', 'REST API'],
+      'Internal mobile application supporting operational workflows, including data input, camera usage, and barcode/QR scanning.',
+    stack: ['Flutter', 'Dart', 'Provider', 'Camera', 'Barcode / QR Scanner'],
     role: 'Mobile Engineer',
-    highlight: 'Built offline-capable system for warehouse scanning and real-time synchronization.',
-    image: '/images/stockopname.jpeg',
+    highlight:
+      'Built scalable Flutter architecture using Provider/ChangeNotifier with consistent state flow and long-term maintainability in mind.',
+    image: '/images/pkt.png',
   },
   {
-    title: 'Job Seeker Platform (KerjaLoka)',
+    title: 'Internal Retail & Marketing System',
     description:
-      'Job search and recruitment platform connecting job seekers with employers, featuring job listings, application tracking, and profile management.',
-    stack: ['React Native', 'TypeScript', 'Redux', 'Firebase'],
-    role: 'Mobile Engineer',
-    highlight: 'Developed user-friendly interface for seamless job search and application experience.',
-    image: '/images/jobseeker-kerjaloka-apps.png',
-  },
-  {
-    title: 'ERP Internal Tools',
-    description:
-      'Internal ERP tools for business operations, including employee management, reporting dashboards, and workflow automation.',
-    stack: ['React', 'TypeScript', 'Material-UI', 'Redux'],
+      'Internal retail and marketing web system for sales data recording and business process support.',
+    stack: ['React.js', 'TypeScript', 'Redux', 'React Hooks', 'Odoo ERP'],
     role: 'Frontend Engineer',
-    highlight: 'Created modular component system for rapid feature development.',
+    highlight:
+      'Integrated frontend system with Odoo ERP and implemented structured state handling for sales and marketing data.',
     image: '/images/erp-inl.png',
+  },
+  {
+    title: 'Job Marketplace Mobile Application',
+    description:
+      'Mobile job marketplace application connecting job seekers with employers through job listings and application workflows.',
+    stack: ['Android (Kotlin)', 'MVVM', 'ViewModel', 'LiveData', 'Coroutines'],
+    role: 'Mobile Application Developer',
+    highlight:
+      'Implemented MVVM architecture, managed UI state with ViewModel + LiveData, and handled asynchronous flows using Kotlin Coroutines.',
+    image: '/images/jobseeker-kerjaloka-apps.png',
   },
 ];

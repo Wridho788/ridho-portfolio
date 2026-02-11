@@ -7,26 +7,20 @@ export type Experience = {
 export const experiences: Experience[] = [
   {
     role: 'Frontend & Mobile Engineer',
-    company: 'ERP–POS Platform',
+    company: 'PT Propadu Konair Tarahubun',
     summary:
-      'Built and maintained cross-platform ERP–POS applications, focusing on scalable state management, offline-ready data flow, and performance optimization for daily business operations.',
+      'Developed internal business systems and public-facing web applications using React.js and Next.js (TypeScript) with Zustand for client-side state management and React Query for server-state handling. Built internal mobile applications using Flutter with Provider/ChangeNotifier, focusing on scalable architecture, consistent state flow, and long-term maintainability.',
   },
   {
-    role: 'Mobile Engineer (Android)',
-    company: 'Stock Trading Application',
+    role: 'Frontend Web Engineer',
+    company: 'PT Taqnia Utama',
     summary:
-      'Developed native Android stock trading application using Kotlin, integrating real-time market data, ensuring performance, security, and reliability in financial transactions.',
+      'Developed enterprise web applications using React.js and TypeScript, implementing structured state management with React Query and UI state patterns. Designed scalable frontend architecture with reusable components, service layers, and clear separation of concerns to ensure performance and maintainability in production.',
   },
   {
-    role: 'Frontend Engineer',
-    company: 'E-commerce & Marketplace Projects',
+    role: 'Mobile Application Developer',
+    company: 'PT Cipta Kerja Arunika Nusantara',
     summary:
-      'Developed e-commerce and marketplace web applications using React and TypeScript, emphasizing clean architecture, maintainable UI systems, and seamless API integration.',
-  },
-  {
-    role: 'Mobile Engineer',
-    company: 'Stock Opname & Inventory Systems',
-    summary:
-      'Built inventory management and stock tracking mobile applications with offline capabilities, real-time synchronization, and barcode scanning integration.',
+      'Built Android native applications using Kotlin with MVVM architecture. Managed UI state using ViewModel and LiveData, handled asynchronous operations with Kotlin Coroutines, and deployed applications to Google Play Store.',
   },
 ];

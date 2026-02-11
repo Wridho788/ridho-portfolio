@@ -46,7 +46,7 @@ export default function Hero() {
             
             {/* Profile Image */}
             <div className="relative mb-6">
-              <div className="w-64 h-64 mx-auto rounded-full overflow-hidden border-4 border-[--color-primary]/30 shadow-[--shadow-glow]">
+              <div className="w-70 h-60 mx-auto rounded-full overflow-hidden border-4 border-[--color-primary]/30 shadow-[--shadow-glow]">
                 <img 
                   src="/images/profile.jpeg" 
                   alt="Ridho Profile" 
@@ -57,7 +57,7 @@ export default function Hero() {
 
             <div className="relative bg-[--color-surface] border border-white/10 rounded-xl p-8 shadow-[--shadow-soft]">
               <p className="text-sm text-[--color-textMuted]">
-                6+ years experience • Web & Mobile • Production-ready mindset
+                7+ years experience • Web & Mobile • Production-ready mindset
               </p>
             </div>
           </div>
