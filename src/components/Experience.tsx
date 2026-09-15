@@ -18,6 +18,12 @@ export default function Experience() {
                 </span>
               </h3>
 
+              {exp.period && (
+                <p className="text-sm text-[--color-textMuted] mt-1">
+                  {exp.period}
+                </p>
+              )}
+
               <p className="text-[--color-textMuted] mt-2 max-w-3xl">
                 {exp.summary}
               </p>

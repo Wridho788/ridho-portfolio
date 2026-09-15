@@ -1,22 +1,36 @@
 import { Project } from '@/lib/projects';
+import { caseStudies } from '@/lib/caseStudies';
 import Image from 'next/image';
 
 export default function ProjectCard({ project }: { project: Project }) {
+  // Only link to a case study that actually exists — `output: 'export'` only
+  // generates pages from `caseStudies`, so a slug without a matching entry
+  // would render a CTA straight into a 404.
+  const hasCaseStudy = caseStudies.some((cs) => cs.slug === project.slug);
+  const contain = project.imageFit === 'contain';
+
   return (
-    <div className="bg-[--color-surface] border border-white/10 rounded-xl overflow-hidden hover:shadow-[--shadow-soft] transition group">
+    <div className="h-full flex flex-col bg-[--color-surface] border border-white/10 rounded-xl overflow-hidden hover:shadow-[--shadow-soft] transition group">
       
       {project.image && (
-        <div className="relative h-48 overflow-hidden">
+        <div
+          className={`relative h-48 overflow-hidden ${
+            contain ? 'bg-black/20' : ''
+          }`}
+        >
           <Image
             src={project.image}
             alt={project.title}
             fill
-            className="object-cover group-hover:scale-105 transition duration-300"
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className={`group-hover:scale-105 transition duration-300 ${
+              contain ? 'object-contain p-3' : 'object-cover'
+            }`}
           />
         </div>
       )}
 
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <h3 className="text-xl font-semibold mb-2">
           {project.title}
         </h3>
@@ -44,7 +58,9 @@ export default function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {project.slug && (
+        <div className="mt-auto" />
+
+        {hasCaseStudy && (
           <a
             href={`/case-studies/${project.slug}`}
             className="text-[--color-primary] text-sm hover:underline inline-flex items-center gap-1"

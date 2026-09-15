@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function Hero() {
   return (
     <section className="relative overflow-hidden">
@@ -12,15 +14,15 @@ export default function Hero() {
               Frontend & Mobile Engineer
               <br />
               <span className="text-[--color-primary]">
-                Building Scalable Applications
+                Who Also Builds the Tests That Prove It Works
               </span>
             </h1>
 
             <p className="mt-6 text-[--color-textMuted] max-w-xl leading-relaxed">
-              I design and develop high-performance web and mobile applications
-              using React, TypeScript, Next.js, Flutter, and Android Kotlin,
-              focusing on clean architecture, performance, and real business
-              needs.
+              I build production web and mobile applications with React,
+              Next.js, TypeScript, Flutter, and Android Kotlin — then bring
+              the same rigor to automated testing with Playwright and
+              Maestro, so what ships is verified, not just demoed.
             </p>
 
             <div className="mt-10 flex gap-4 flex-wrap">
@@ -46,11 +48,13 @@ export default function Hero() {
             
             {/* Profile Image */}
             <div className="relative mb-6">
-              <div className="w-70 h-60 mx-auto rounded-full overflow-hidden border-4 border-[--color-primary]/30 shadow-[--shadow-glow]">
-                <img 
-                  src="/images/profile.jpeg" 
-                  alt="Ridho Profile" 
-                  className="w-full h-full object-cover"
+              <div className="relative w-70 h-60 mx-auto rounded-full overflow-hidden border-4 border-[--color-primary]/30 shadow-[--shadow-glow]">
+                <Image
+                  src="/images/profile.jpeg"
+                  alt="Ridho Profile"
+                  fill
+                  sizes="280px"
+                  className="object-cover"
                 />
               </div>
             </div>

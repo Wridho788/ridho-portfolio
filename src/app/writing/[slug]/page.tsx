@@ -1,6 +1,7 @@
 import { posts } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import React from 'react';
+import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
 export function generateStaticParams() {
@@ -27,6 +28,65 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 // Article content for each post
 const articleContent: Record<string, React.ReactElement> = {
+  'ai-agents-qa-automation-maestro-playwright': (
+    <>
+      <p className="mb-6">
+        Most of the conversation around AI coding agents focuses on writing application code. In QA automation, the more immediate impact has been somewhere less discussed: turning a requirement or a raw screen hierarchy into a maintainable test flow, and doing it consistently across a large regression suite instead of one script at a time.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Where an Agent Actually Helps</h2>
+      <p className="mb-6">
+        Maestro flows for mobile and Playwright specs for web are both, at their core, translations from a requirement (&quot;given the user is on the login screen, when they enter a wrong password, then an error toast appears&quot;) into a sequence of selectors and assertions. Writing that translation by hand for every requirement case doesn&apos;t scale well once a milestone has dozens of tickets. An agent that has been shown the house conventions — how flows are structured, how selectors are named, how Given/When/Then maps to steps — can produce a first draft flow directly from the requirement text, leaving the review to focus on whether the logic is right rather than on boilerplate.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Maestro Hierarchy as Ground Truth</h2>
+      <p className="mb-6">
+        Maestro Hierarchy dumps the live view hierarchy of whatever screen is currently on the device — every element, its text, its resource ID, its bounds. Guessing selectors from a screenshot alone leads to brittle flows that break the moment a layout shifts. Feeding the actual hierarchy dump to an agent, and cross-checking candidate selectors against the app&apos;s source rather than just the dump, produces selectors that are more likely to survive the next UI change and easier to explain in review.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">One Convention, Two Platforms</h2>
+      <p className="mb-6">
+        Mobile automation runs on Maestro, web automation on Playwright, and the two occasionally meet — an action performed on the mobile app that needs to be verified on the web admin panel. Keeping both under one structured convention (shared naming, a consistent page-object style, the same Given/When/Then vocabulary) is what makes an agent-generated flow usable without a rewrite. Without that shared structure, every generated flow becomes a one-off that the next person has to relearn.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Debugging Failures Faster</h2>
+      <p className="mb-6">
+        A failing flow can mean a flaky selector, a genuine app regression, a backend response that changed shape, or an environment that&apos;s simply down. Sorting through which one it is by re-running the flow manually and reading logs line by line is slow. An agent that can be pointed at the failure, the flow definition, and the relevant logs at once shortens that investigation considerably — it still needs a person to confirm the diagnosis, but it removes most of the manual log-chasing.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">What Still Needs a Human</h2>
+      <p className="mb-6">
+        None of this removes the need to understand the product. The requirement still has to be written clearly before an agent can expand it into Given/When/Then cases, and every generated flow gets run and reviewed before it goes into the regression suite — an agent can produce a plausible-looking flow that asserts the wrong thing if the requirement was ambiguous to begin with. The value isn&apos;t in removing judgment from the process; it&apos;s in removing the repetitive setup so more time goes into the judgment calls that actually matter.
+      </p>
+    </>
+  ),
+  'flutter-state-management-performance-caching-error-handling': (
+    <>
+      <p className="mb-6">
+        On a field data-capture app running on mid-range Android devices, often in warehouse areas with weak signal, state management stops being an abstract architecture debate and becomes the difference between a screen that feels responsive and one that stutters every time an operator taps a field.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Scoping Provider Correctly</h2>
+      <p className="mb-6">
+        Provider with ChangeNotifier is straightforward, but it&apos;s easy to end up with one large notifier behind an entire screen, where a single <code>notifyListeners()</code> call rebuilds far more of the widget tree than actually changed. Splitting notifiers per operational flow, and using <code>Selector</code> or <code>context.select</code> to subscribe widgets to only the specific field they depend on, keeps rebuilds scoped to what actually changed. On lower-end hardware, that difference shows up directly as dropped frames versus a smooth scroll.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Two Kinds of Cache, Two Lifetimes</h2>
+      <p className="mb-6">
+        Not all state deserves the same durability. Ephemeral UI state — a filter, a form field mid-edit, a toggle — belongs in the notifier and can disappear when the screen unmounts. Anything the operator would be upset to lose, like a form partially filled out before a scan or a submission still waiting to sync, belongs in local persistent storage, written as the operator progresses rather than only on final submit. Treating both as the same kind of &quot;state&quot; is what leads to either losing real work or over-persisting things that don&apos;t need to survive a restart.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Modeling Errors as State, Not Exceptions</h2>
+      <p className="mb-6">
+        Camera access, barcode/QR scanning, and network calls all fail in different ways, and letting those failures surface as uncaught exceptions in the widget tree makes for an app that crashes instead of degrading gracefully. Isolating camera and scanner access behind service classes, and having each async operation resolve into an explicit state — loading, success, error, empty — lets the UI react to a typed error instead of catching a generic exception at the top of the tree. It also makes retry logic a deliberate decision: a network timeout is usually worth a silent retry, while a denied camera permission needs to surface to the operator directly.
+      </p>
+
+      <h2 className="text-2xl font-semibold mt-12 mb-4">Why It Has to Work Together</h2>
+      <p className="mb-6">
+        Scoped rebuilds, a clear boundary between ephemeral and durable state, and typed error handling aren&apos;t independent concerns — they compound. A notifier that rebuilds too broadly makes a slow network call feel worse than it is, because the whole screen freezes instead of just the field waiting on data. Getting all three right is what made the workflow usable on the actual hardware and connectivity it had to run on, not just clean in the architecture diagram.
+      </p>
+    </>
+  ),
   'state-management-is-a-product-decision': (
     <>
       <p className="mb-6">
@@ -153,12 +213,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10">
-          <a
+          <Link
             href="/writing"
             className="text-[--color-primary] hover:underline inline-flex items-center gap-2"
           >
             ← Back to Writing
-          </a>
+          </Link>
         </div>
 
       </div>

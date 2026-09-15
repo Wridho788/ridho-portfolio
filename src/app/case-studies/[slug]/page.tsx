@@ -1,6 +1,7 @@
 import { caseStudies } from '@/lib/caseStudies';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
 export function generateStaticParams() {
@@ -84,12 +85,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10">
-          <a
+          <Link
             href="/#projects"
             className="text-[--color-primary] hover:underline inline-flex items-center gap-2"
           >
             ← Back to Projects
-          </a>
+          </Link>
         </div>
 
       </div>

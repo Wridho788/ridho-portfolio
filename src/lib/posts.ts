@@ -8,6 +8,20 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: 'ai-agents-qa-automation-maestro-playwright',
+    title: 'Using AI Agents to Scale QA Automation with Maestro and Playwright',
+    summary:
+      'How structured AI agent workflows speed up building and maintaining mobile and web test automation with Maestro, Maestro Hierarchy, and Playwright — and where they don’t replace human judgment.',
+    date: '2026-08-20',
+  },
+  {
+    slug: 'flutter-state-management-performance-caching-error-handling',
+    title: 'Flutter State Management for Performance: Caching and Error Handling in Practice',
+    summary:
+      'Scoping Provider/ChangeNotifier correctly, separating ephemeral UI state from durable local cache, and modeling failures as state instead of exceptions in a field data-capture app.',
+    date: '2025-06-10',
+  },
+  {
     slug: 'state-management-is-a-product-decision',
     title: 'State Management Is a Product Decision',
     summary:

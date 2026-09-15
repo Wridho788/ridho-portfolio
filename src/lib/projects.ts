@@ -6,9 +6,26 @@ export type Project = {
   highlight: string;
   slug?: string;
   image?: string;
+  /**
+   * How the thumbnail fills the card. Default 'cover' suits landscape
+   * screenshots. Use 'contain' for portrait phone screenshots — the card slot
+   * is ~2.4:1, so covering a 0.35:1 image crops away most of the screen.
+   */
+  imageFit?: 'cover' | 'contain';
 };
 
 export const projects: Project[] = [
+  {
+    title: 'ERP–POS Mobile Application',
+    description:
+      'Cross-platform ERP–POS system used for daily sales operations and inventory management in retail environments with unstable connectivity.',
+    stack: ['React Native', 'TypeScript', 'Zustand', 'React Query', 'Expo'],
+    role: 'Mobile Engineer',
+    highlight:
+      'Built an offline-first architecture with a queue-based sync mechanism that prioritizes critical transactions and resolves conflicts on reconnect.',
+    slug: 'erp-pos',
+    image: '/images/erp-pos.jpg',
+  },
   {
     title: 'Internal & Public Web Applications',
     description:
@@ -18,7 +35,7 @@ export const projects: Project[] = [
     highlight:
       'Designed scalable frontend architecture with clear separation of concerns, reusable components, and structured client/server state management.',
     slug: 'internal-public-web',
-    image: '/images/internal-web-apps.png',
+    image: '/images/internal-web-apps.webp',
   },
   {
     title: 'Internal Mobile Application',
@@ -28,7 +45,8 @@ export const projects: Project[] = [
     role: 'Mobile Engineer',
     highlight:
       'Built scalable Flutter architecture using Provider/ChangeNotifier with consistent state flow and long-term maintainability in mind.',
-    image: '/images/pkt.png',
+    slug: 'internal-mobile-app',
+    image: '/images/pkt.webp',
   },
   {
     title: 'Internal Retail & Marketing System',
@@ -38,7 +56,8 @@ export const projects: Project[] = [
     role: 'Frontend Engineer',
     highlight:
       'Integrated frontend system with Odoo ERP and implemented structured state handling for sales and marketing data.',
-    image: '/images/erp-inl.png',
+    slug: 'retail-marketing-system',
+    image: '/images/erp-inl.webp',
   },
   {
     title: 'Job Marketplace Mobile Application',
@@ -48,6 +67,8 @@ export const projects: Project[] = [
     role: 'Mobile Application Developer',
     highlight:
       'Implemented MVVM architecture, managed UI state with ViewModel + LiveData, and handled asynchronous flows using Kotlin Coroutines.',
+    slug: 'job-marketplace-app',
     image: '/images/jobseeker-kerjaloka-apps.png',
+    imageFit: 'contain',
   },
 ];

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Navigation() {
   const [open, setOpen] = useState(false);
@@ -10,12 +11,12 @@ export default function Navigation() {
       {/* Top Navigation */}
       <nav className="fixed top-0 w-full backdrop-blur-md bg-[--color-background]/70 border-b border-white/10 z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <a
+          <Link
             href="/"
             className="text-xl font-bold text-[--color-primary] hover:opacity-80 transition"
           >
             Ridho
-          </a>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-6 text-sm">
@@ -85,9 +86,9 @@ export default function Navigation() {
 
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <a href={href} className="hover:text-[--color-primary] transition">
+    <Link href={href} className="hover:text-[--color-primary] transition">
       {children}
-    </a>
+    </Link>
   );
 }
 
@@ -101,13 +102,13 @@ function SheetLink({
   onClick: () => void;
 }) {
   return (
-    <a
+    <Link
       href={href}
       onClick={onClick}
-className="py-3 text-lg font-medium text-[--color-primary] hover:opacity-80 transition"
+      className="py-3 text-lg font-medium text-[--color-primary] hover:opacity-80 transition"
     >
       {children}
-    </a>
+    </Link>
   );
 }
 

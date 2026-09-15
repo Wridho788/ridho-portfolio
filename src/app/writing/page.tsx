@@ -1,5 +1,6 @@
 import { posts } from '@/lib/posts';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Navigation from '@/components/Navigation';
 
 export const metadata: Metadata = {
@@ -24,7 +25,7 @@ export default function WritingPage() {
 
         <div className="space-y-10">
           {posts.map((post) => (
-            <a
+            <Link
               key={post.slug}
               href={`/writing/${post.slug}`}
               className="block border-b border-white/10 pb-6 hover:text-[--color-primary] transition"
@@ -44,7 +45,7 @@ export default function WritingPage() {
                   day: 'numeric'
                 })}
               </p>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

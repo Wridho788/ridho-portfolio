@@ -2,19 +2,19 @@ export default function Contact() {
   return (
     <section id="contact" className="py-32 bg-[--color-surface]">
       <div className="max-w-6xl mx-auto px-6 text-center">
-        
+
         <h2 className="text-3xl md:text-4xl font-semibold mb-6">
           Let&apos;s Work Together
         </h2>
 
         <p className="text-[--color-textMuted] max-w-xl mx-auto mb-10">
-          Have a project, role, or collaboration in mind?  
+          Have a project, role, or collaboration in mind?
           Feel free to reach out — I&apos;m always open to discussing meaningful work.
         </p>
 
         <div className="flex justify-center gap-6 flex-wrap">
           <a
-            href="mailto:ridho@example.com"
+            href="mailto:wridho246@gmail.com"
             className="bg-[--color-primary] text-white px-6 py-3 rounded-xl hover:shadow-[--shadow-glow] transition"
           >
             Email Me
