@@ -14,16 +14,16 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Ridho — Frontend & Mobile Engineer',
+    default: 'Ridho — Frontend & Full-Stack Developer',
     template: '%s | Ridho',
   },
   description:
-    'Frontend & Mobile Engineer specializing in React, TypeScript, Next.js, Flutter, and Android Kotlin. Experienced in building scalable, production-ready web and mobile applications.',
+    'Frontend & Full-Stack Developer specializing in React, Next.js, and TypeScript, with REST API integration, state management, and mobile development experience (Flutter, Android Kotlin). Experienced in building scalable, production-ready web and mobile applications.',
   metadataBase: new URL('https://ridho-portfolio.vercel.app'),
   openGraph: {
-    title: 'Ridho — Frontend & Mobile Engineer',
+    title: 'Ridho — Frontend & Full-Stack Developer',
     description:
-      'Building scalable, high-performance web and mobile applications.',
+      'Building scalable, production-ready web and mobile applications with React, Next.js, and TypeScript.',
     url: 'https://ridho-portfolio.vercel.app',
     siteName: 'Ridho Portfolio',
     images: ['/og-image.png'],
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ridho — Frontend & Mobile Engineer',
-    description: 'Building scalable, high-performance web and mobile applications.',
+    title: 'Ridho — Frontend & Full-Stack Developer',
+    description: 'Building scalable, production-ready web and mobile applications with React, Next.js, and TypeScript.',
     images: ['/og-image.png'],
   },
   robots: {

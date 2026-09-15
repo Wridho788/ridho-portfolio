@@ -2,27 +2,107 @@ export type CaseStudy = {
   slug: string;
   title: string;
   summary: string;
-  context: string;
-  problem: string;
-  solution: string;
-  impact: string;
+  overview: string;
+  contribution: string[];
+  highlights: string[];
+  challenges: string[];
+  impact: string[];
   stack: string[];
   image?: string;
+  /** Use 'contain' for portrait phone screenshots — the banner is short and wide. */
+  imageFit?: 'cover' | 'contain';
+  liveDemo?: string;
+  github?: string;
 };
+
 export const caseStudies: CaseStudy[] = [
+  {
+    slug: 'lapakbenz',
+    title: 'LapakBenz',
+    summary:
+      'A community, event, and multi-vendor marketplace platform for Indonesian UMKM and automotive communities, built as a client-rendered SPA with a custom SEO pipeline.',
+    overview:
+      'A community, event, and multi-vendor marketplace platform for Indonesian UMKM and automotive communities — merchants register and manage storefronts, shoppers browse and buy, and members discover events, all in one React SPA.',
+    contribution: [
+      'Built the frontend end-to-end solo: product catalog, cart, checkout, order tracking, wallet/points, vouchers, wishlist, merchant registration, and event pages.',
+      'Structured the API layer with React Query hooks and types separated per domain (product, cart, order, event, voucher, wishlist, shipping, partner).',
+      'Wrote a static-generation script that pre-renders per-route HTML with correct title, description, and Open Graph tags for every product, event, and merchant page.',
+      'Integrated PWA support and OneSignal push notifications.',
+    ],
+    highlights: [
+      'Custom static-HTML pre-rendering pipeline solving SEO for a client-rendered Vite SPA, without a server-rendered framework.',
+      'React Query for all server state, Zustand for client-only state (cart, session UI).',
+      'Domain-separated API layer — hooks and types per feature, consumed via Axios.',
+    ],
+    challenges: [
+      'A client-rendered SPA has no server-rendered HTML, so crawlers and social platforms saw an empty shell instead of product/event pages — solved by pre-rendering static HTML per route instead of migrating the whole app to a server-rendered framework.',
+      'Serving three different user types (shoppers, merchants, community members) from one app meant keeping the routing and data layer generic enough to support all three without duplicating logic per audience.',
+    ],
+    impact: [
+      'Product, event, and merchant pages are indexable and produce correct link previews when shared, despite the app being fully client-rendered.',
+    ],
+    stack: ['React', 'TypeScript', 'Vite', 'React Query', 'Zustand', 'React Router', 'Axios', 'Tailwind CSS'],
+    image: '/images/lapakbenz.png',
+    imageFit: 'contain',
+    liveDemo: 'https://lapakbenzz.vercel.app/',
+    github: 'https://github.com/Wridho788/lapakbenz',
+  },
+  {
+    slug: 'ravasim',
+    title: 'RavaSIM',
+    summary:
+      'A frontend-only eSIM management SaaS dashboard demonstrating production-style architecture — package browsing, checkout, device management, and usage tracking, ready to plug into a real backend.',
+    overview:
+      'A frontend-only eSIM management SaaS dashboard — package browsing, checkout, eSIM activation, device registration, and usage tracking — built to demonstrate a production-style architecture without a real backend in place yet.',
+    contribution: [
+      'Structured the app as feature-based modules (auth, packages, orders, esim, devices), each with its own api/hooks/services/types layer.',
+      'Implemented data fetching and caching with React Query, client state with Zustand, and form validation with Yup.',
+      'Built a shared mock-delay adapter so async flows behave like real network calls during development.',
+    ],
+    highlights: [
+      'Feature-based modular architecture — every module talks to its service layer the same way, whether the call is mocked or real.',
+      'Mock API layer that mirrors a real API contract, so swapping in a backend is a replacement, not a rewrite.',
+      'Mantine UI for the component layer, Yup for schema validation.',
+    ],
+    challenges: [
+      'Frontend-only projects risk having their code organized around whatever the mock data looks like — addressed by putting a service/hook boundary between components and the mock layer from the start.',
+      "Async UI states (loading, error, race conditions) don't show up naturally against instant mock responses — solved with a shared mock-delay adapter so those states are actually exercised during development.",
+    ],
+    impact: [
+      'Demonstrates a full SaaS workflow — auth, marketplace, checkout, device and eSIM management — where integrating a real backend later is a matter of replacing the mock implementation, not restructuring the app.',
+    ],
+    stack: ['Next.js', 'React', 'TypeScript', 'Mantine UI', 'React Query', 'Zustand', 'Yup'],
+    image: '/images/ravasim.png',
+    imageFit: 'contain',
+    liveDemo: 'https://ravasim.vercel.app',
+    github: 'https://github.com/Wridho788/ravasim',
+  },
   {
     slug: 'erp-pos',
     title: 'ERP–POS Mobile Application',
     summary:
       'A cross-platform ERP–POS system used for daily sales operations and inventory management.',
-    context:
-      'The client needed a reliable mobile POS system capable of handling offline transactions and syncing data efficiently. The application needed to work seamlessly in retail environments with unstable internet connectivity.',
-    problem:
-      'Frequent network issues caused data inconsistency and poor user experience during peak hours. Sales transactions were getting lost, inventory counts were inaccurate, and staff productivity was affected by slow synchronization.',
-    solution:
-      'Implemented offline-first architecture with efficient state management using Zustand and optimized data fetching with React Query. Designed a queue-based sync mechanism that prioritizes critical transactions and handles conflicts gracefully. Built a local database layer using AsyncStorage with encryption for sensitive data.',
-    impact:
-      'Improved transaction reliability by 95%, reduced sync errors to near-zero, and increased daily operational efficiency by 40%. Staff reported significantly better user experience, and the client saw measurable improvements in sales processing speed.',
+    overview:
+      'A cross-platform ERP–POS system for daily sales operations and inventory management, built for retail environments with unstable internet connectivity where a lost transaction or a miscounted stock item has a direct cost.',
+    contribution: [
+      'Designed the offline-first data flow so sales and inventory actions are captured locally first, then synced.',
+      'Built a queue-based sync mechanism that prioritizes critical transactions and resolves conflicts on reconnect.',
+      'Implemented a local database layer using AsyncStorage with encryption for sensitive data.',
+      'Optimized data fetching and caching with React Query alongside Zustand for client state.',
+    ],
+    highlights: [
+      'Offline-first architecture with queue-based sync and conflict resolution.',
+      'Encrypted local storage for sensitive transaction data.',
+      'React Query for server-state caching, Zustand for client state.',
+    ],
+    challenges: [
+      'Frequent network drops during peak hours were losing transactions and causing inventory count drift — solved by treating offline as the default mode rather than a fallback path.',
+      'Conflicting updates on reconnect (e.g., two devices adjusting the same stock count) required an explicit conflict-resolution strategy in the sync queue rather than last-write-wins.',
+    ],
+    impact: [
+      'Improved transaction reliability by ~95% and reduced sync errors to near-zero.',
+      'Increased daily operational efficiency by around 40%, with a measurable improvement in sales processing speed.',
+    ],
     stack: ['React Native', 'TypeScript', 'Zustand', 'React Query', 'AsyncStorage', 'Expo'],
     image: '/images/erp-pos.jpg',
   },
@@ -31,15 +111,26 @@ export const caseStudies: CaseStudy[] = [
     title: 'Internal & Public Web Applications',
     summary:
       'Enterprise internal systems and public-facing web applications supporting business operations and customer-facing workflows.',
-    context:
-      'The company ran several business processes across separate internal tools while also serving customers through public web applications. Both sides needed to share the same design language, authentication, and data sources without duplicating frontend work for every new module.',
-    problem:
-      'Each new module was being built with its own state handling and its own data-fetching conventions. Server data and UI state were mixed inside components, so caching was inconsistent, loading and error states were handled differently on every screen, and onboarding a developer to a new module meant learning a new set of patterns.',
-    solution:
-      'Designed a frontend architecture in Next.js and TypeScript with a clear separation of concerns: a service layer for API access, React Query for all server state (caching, revalidation, and error handling in one place), and Zustand for genuine client state such as filters, wizards, and session-scoped UI. Extracted shared form, table, and layout components into a reusable internal library so new modules start from existing building blocks instead of from scratch.',
-    impact:
-      'New modules are now assembled from shared components and a single data-fetching convention, so behaviour around loading, caching, and error states is consistent across both the internal and the public applications, and developers moving between modules work in the same patterns throughout.',
-    stack: ['Next.js', 'React.js', 'TypeScript', 'Zustand', 'React Query'],
+    overview:
+      'Enterprise internal systems and public-facing web applications sharing the same design language, authentication, and data sources — built so new modules could be added without duplicating frontend work each time.',
+    contribution: [
+      'Designed a Next.js/TypeScript frontend architecture with a clear separation of concerns: a service layer for API access, React Query for server state, and Zustand for genuine client state (filters, wizards, session-scoped UI).',
+      'Extracted shared form, table, and layout components into a reusable internal library.',
+      'Standardized loading, caching, and error-state handling across both internal and public applications.',
+    ],
+    highlights: [
+      'React Query as the single source of truth for server state — caching, revalidation, and error handling in one place.',
+      'Zustand scoped strictly to client-only state, kept separate from server data.',
+      'Shared internal component library (forms, tables, layout) reused across modules.',
+    ],
+    challenges: [
+      'Each new module previously came with its own state-handling conventions, making onboarding slow and caching inconsistent — resolved by standardizing on one data-fetching convention before adding more modules.',
+      'Server data and UI state were mixed inside components; separating them into distinct layers required refactoring several existing screens, not just the new ones.',
+    ],
+    impact: [
+      'New modules are now assembled from shared components with one consistent data-fetching pattern, so behavior around loading, caching, and errors stays predictable across the internal and public applications.',
+    ],
+    stack: ['Next.js', 'React', 'TypeScript', 'Zustand', 'React Query'],
     image: '/images/internal-web-apps.webp',
   },
   {
@@ -47,14 +138,25 @@ export const caseStudies: CaseStudy[] = [
     title: 'Internal Mobile Application',
     summary:
       'A Flutter application supporting field and warehouse operations, including data input, camera capture, and barcode/QR scanning.',
-    context:
-      'Operational teams were recording field and stock data on paper and re-entering it into desktop systems later. The company needed a mobile application that staff could use directly at the point of work, on mid-range Android devices, often in warehouse areas with weak signal.',
-    problem:
-      'Manual re-entry made the data slow to arrive and easy to get wrong. The workflow also needed hardware access — camera capture for proof of condition and barcode/QR scanning for item identification — which had to stay responsive on lower-end devices rather than blocking the UI while processing.',
-    solution:
-      'Built the application in Flutter with Provider/ChangeNotifier, keeping each operational flow behind its own notifier so state transitions stay explicit and testable. Isolated camera and scanner access behind service classes so permission handling and device quirks live in one place, and structured forms to validate and persist locally before submission so an interrupted session does not lose the operator’s work.',
-    impact:
-      'Operational data is now captured once, at the point of work, with item identification handled by scanning instead of manual entry — removing the paper-to-desktop re-entry step from the workflow entirely.',
+    overview:
+      'A Flutter application for field and warehouse operations, replacing paper-based data collection with direct entry at the point of work — including camera capture and barcode/QR scanning on mid-range Android devices.',
+    contribution: [
+      'Built each operational flow behind its own Provider/ChangeNotifier so state transitions stay explicit and testable.',
+      'Isolated camera and scanner access behind dedicated service classes to centralize permission handling and device-specific quirks.',
+      'Structured forms to validate and persist locally before submission.',
+    ],
+    highlights: [
+      'Provider/ChangeNotifier architecture with one notifier per operational flow.',
+      'Camera and barcode/QR scanner access abstracted behind service classes.',
+      "Local persistence before submission so interrupted sessions don't lose data.",
+    ],
+    challenges: [
+      'Camera and scanner processing needed to stay responsive on lower-end devices instead of blocking the UI thread — handled by isolating hardware access in services rather than calling it directly from widgets.',
+      "An interrupted session (app killed, connectivity lost mid-entry) shouldn't lose the operator's work — addressed by persisting form state locally before the submission step.",
+    ],
+    impact: [
+      'Operational data is now captured once, at the point of work, with item identification handled by scanning instead of manual entry — removing the paper-to-desktop re-entry step from the workflow.',
+    ],
     stack: ['Flutter', 'Dart', 'Provider', 'Camera', 'Barcode / QR Scanner'],
     image: '/images/pkt.webp',
   },
@@ -63,15 +165,24 @@ export const caseStudies: CaseStudy[] = [
     title: 'Internal Retail & Marketing System',
     summary:
       'An internal web system for recording sales data and supporting retail and marketing business processes, integrated with Odoo ERP.',
-    context:
-      'Sales and marketing activity was tracked in spreadsheets while the source of truth for products, pricing, and stock lived in Odoo ERP. The business needed an internal web interface that let non-technical staff record and review sales data without working inside Odoo directly.',
-    problem:
-      'The ERP data model did not map cleanly onto the way the sales team worked, so the frontend had to reshape ERP responses into a workflow staff could follow. Sales entry screens involved long, interdependent forms where a change in one field affected the options available in the next, which made ad-hoc component state unmanageable.',
-    solution:
-      'Built the interface in React and TypeScript with Redux as a single, predictable store for the sales entry workflow, so interdependent form state stays consistent as users move through it. Added an adapter layer between the Odoo ERP API and the UI so ERP-specific field names and structures are translated once, at the boundary, instead of leaking into every component.',
-    impact:
-      'Sales and marketing staff record data through a workflow built around their process rather than the ERP’s data model, while product, pricing, and stock stay sourced from Odoo as the single source of truth.',
-    stack: ['React.js', 'TypeScript', 'Redux', 'React Hooks', 'Odoo ERP'],
+    overview:
+      'An internal web interface letting non-technical sales staff record and review sales data, with Odoo ERP as the underlying source of truth for products, pricing, and stock.',
+    contribution: [
+      'Built the sales-entry workflow in React and TypeScript with Redux as a single, predictable store for long, interdependent forms.',
+      'Built an adapter layer between the Odoo ERP API and the UI, translating ERP-specific field names and structures once, at the boundary.',
+    ],
+    highlights: [
+      'Redux as the single source of truth for interdependent, multi-step form state.',
+      'Adapter layer isolating ERP-specific data shapes from UI components.',
+    ],
+    challenges: [
+      "The ERP data model didn't map cleanly onto how the sales team actually worked, so the frontend had to reshape ERP responses into a workflow staff could follow — handled at the adapter layer instead of leaking ERP structure into every screen.",
+      'Sales entry forms had fields whose available options depended on earlier answers, which made ad-hoc component state unmanageable — solved by centralizing that logic in Redux.',
+    ],
+    impact: [
+      "Sales and marketing staff now record data through a workflow built around their process rather than the ERP's data model, while product, pricing, and stock stay sourced from Odoo as the single source of truth.",
+    ],
+    stack: ['React', 'TypeScript', 'Redux', 'React Hooks', 'Odoo ERP'],
     image: '/images/erp-inl.webp',
   },
   {
@@ -79,14 +190,25 @@ export const caseStudies: CaseStudy[] = [
     title: 'Job Marketplace Mobile Application',
     summary:
       'A native Android job marketplace connecting job seekers with employers through listings and application workflows.',
-    context:
-      'The product connected job seekers with employers through a native Android application covering job discovery, listing detail, and the full application submission flow, including document upload. It shipped to the Google Play Store.',
-    problem:
-      'Job discovery involved paginated lists, filters, and search running against the network, while the application flow involved multi-step submissions and uploads. Doing this work on the main thread or rebuilding state on every configuration change produced dropped frames and lost form input — both unacceptable in a flow where users are entering personal data.',
-    solution:
-      'Implemented MVVM with ViewModel and LiveData so screen state survives configuration changes and the UI observes a single source of truth per screen. Moved all network and I/O work onto Kotlin Coroutines with structured concurrency, so long-running requests are cancelled with their scope and never block the main thread. Handled the application flow as explicit state so partial progress is preserved between steps.',
-    impact:
-      'The application shipped to the Google Play Store with job discovery and the multi-step application flow both running off the main thread, and screen state preserved across rotation and process interruption.',
+    overview:
+      'A native Android job marketplace covering job discovery, listing detail, and the full multi-step application flow including document upload, shipped to the Google Play Store.',
+    contribution: [
+      'Implemented MVVM with ViewModel and LiveData so screen state survives configuration changes.',
+      'Moved network and I/O work onto Kotlin Coroutines with structured concurrency.',
+      'Handled the multi-step application flow as explicit state so partial progress is preserved between steps.',
+    ],
+    highlights: [
+      'MVVM architecture with ViewModel + LiveData as the single source of truth per screen.',
+      'Structured concurrency via Kotlin Coroutines — requests cancelled with their scope, never blocking the main thread.',
+      'Explicit state handling for the multi-step application/upload flow.',
+    ],
+    challenges: [
+      'Paginated job listings with filters and search running against the network, combined with multi-step form submissions, meant naive state handling produced dropped frames and lost form input — unacceptable in a flow collecting personal data.',
+      'Rebuilding state on every configuration change (rotation) was losing user progress — resolved with ViewModel + LiveData surviving the lifecycle event.',
+    ],
+    impact: [
+      'Shipped to the Google Play Store with job discovery and the multi-step application flow both running off the main thread, and screen state preserved across rotation and process interruption.',
+    ],
     stack: ['Android (Kotlin)', 'MVVM', 'ViewModel', 'LiveData', 'Coroutines'],
     image: '/images/jobseeker-kerjaloka-apps.png',
   },

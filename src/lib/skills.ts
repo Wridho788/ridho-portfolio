@@ -5,7 +5,7 @@
 // backed by what was actually built.
 export const skills = {
   web: [
-    'React.js',
+    'React',
     'Next.js',
     'TypeScript',
   ],

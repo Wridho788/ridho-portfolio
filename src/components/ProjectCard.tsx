@@ -11,7 +11,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
   return (
     <div className="h-full flex flex-col bg-[--color-surface] border border-white/10 rounded-xl overflow-hidden hover:shadow-[--shadow-soft] transition group">
-      
+
       {project.image && (
         <div
           className={`relative h-48 overflow-hidden ${
@@ -31,6 +31,12 @@ export default function ProjectCard({ project }: { project: Project }) {
       )}
 
       <div className="p-6 flex flex-col flex-1">
+        {project.featured && (
+          <span className="self-start text-xs font-medium text-[--color-primary] border border-[--color-primary]/40 rounded-full px-3 py-1 mb-3">
+            Featured Project
+          </span>
+        )}
+
         <h3 className="text-xl font-semibold mb-2">
           {project.title}
         </h3>
@@ -60,14 +66,38 @@ export default function ProjectCard({ project }: { project: Project }) {
 
         <div className="mt-auto" />
 
-        {hasCaseStudy && (
-          <a
-            href={`/case-studies/${project.slug}`}
-            className="text-[--color-primary] text-sm hover:underline inline-flex items-center gap-1"
-          >
-            View Case Study →
-          </a>
-        )}
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          {hasCaseStudy && (
+            <a
+              href={`/case-studies/${project.slug}`}
+              className="text-[--color-primary] text-sm hover:underline inline-flex items-center gap-1"
+            >
+              View Case Study →
+            </a>
+          )}
+
+          {project.liveDemo && (
+            <a
+              href={project.liveDemo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[--color-primary] text-sm hover:underline inline-flex items-center gap-1"
+            >
+              Live Demo →
+            </a>
+          )}
+
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[--color-primary] text-sm hover:underline inline-flex items-center gap-1"
+            >
+              GitHub →
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

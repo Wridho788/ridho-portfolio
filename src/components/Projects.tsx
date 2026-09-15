@@ -2,6 +2,9 @@ import { projects } from '@/lib/projects';
 import ProjectCard from './ProjectCard';
 
 export default function Projects() {
+  const featured = projects.filter((project) => project.featured);
+  const professional = projects.filter((project) => !project.featured);
+
   return (
     <section id="projects" className="py-32">
       <div className="max-w-6xl mx-auto px-6">
@@ -14,11 +17,31 @@ export default function Projects() {
           focusing on scalability, performance, and maintainability.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
-          ))}
-        </div>
+        {featured.length > 0 && (
+          <div className="mb-20">
+            <h3 className="text-xl font-semibold mb-8 text-[--color-textMuted]">
+              Featured Personal Projects
+            </h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              {featured.map((project) => (
+                <ProjectCard key={project.title} project={project} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {professional.length > 0 && (
+          <div>
+            <h3 className="text-xl font-semibold mb-8 text-[--color-textMuted]">
+              Professional Experience
+            </h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              {professional.map((project) => (
+                <ProjectCard key={project.title} project={project} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

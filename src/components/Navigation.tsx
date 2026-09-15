@@ -23,6 +23,7 @@ export default function Navigation() {
             <NavLink href="/#projects">Projects</NavLink>
             <NavLink href="/#experience">Experience</NavLink>
             <NavLink href="/#skills">Skills</NavLink>
+            <NavLink href="/#github-activity">GitHub</NavLink>
             <NavLink href="/writing">Writing</NavLink>
             <NavLink href="/#contact">Contact</NavLink>
           </div>
@@ -70,6 +71,9 @@ export default function Navigation() {
             </SheetLink>
             <SheetLink href="/#skills" onClick={() => setOpen(false)}>
               Skills
+            </SheetLink>
+            <SheetLink href="/#github-activity" onClick={() => setOpen(false)}>
+              GitHub
             </SheetLink>
             <SheetLink href="/writing" onClick={() => setOpen(false)}>
               Writing

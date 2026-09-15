@@ -11,18 +11,20 @@ export default function Hero() {
             <p className="text-[--color-primary] mb-4">Hi, I&apos;m Ridho</p>
 
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Frontend & Mobile Engineer
+              Frontend & Full-Stack Developer
               <br />
               <span className="text-[--color-primary]">
-                Who Also Builds the Tests That Prove It Works
+                React, Next.js & TypeScript — From UI to API
               </span>
             </h1>
 
             <p className="mt-6 text-[--color-textMuted] max-w-xl leading-relaxed">
               I build production web and mobile applications with React,
-              Next.js, TypeScript, Flutter, and Android Kotlin — then bring
-              the same rigor to automated testing with Playwright and
-              Maestro, so what ships is verified, not just demoed.
+              Next.js, TypeScript, REST APIs, and state management tools like
+              React Query and Zustand — plus Flutter and Android Kotlin for
+              mobile. I also bring the same rigor to automated testing with
+              Playwright and Maestro, so what ships is verified, not just
+              demoed.
             </p>
 
             <div className="mt-10 flex gap-4 flex-wrap">
@@ -38,6 +40,24 @@ export default function Hero() {
                 className="border border-white/20 px-6 py-3 rounded-xl hover:bg-white/5 transition"
               >
                 Download CV
+              </a>
+            </div>
+
+            <div className="mt-5 flex gap-6 flex-wrap text-sm">
+              <a
+                href="https://github.com/Wridho788"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[--color-textMuted] hover:text-[--color-primary] transition inline-flex items-center gap-1"
+              >
+                GitHub →
+              </a>
+
+              <a
+                href="#contact"
+                className="text-[--color-textMuted] hover:text-[--color-primary] transition inline-flex items-center gap-1"
+              >
+                Contact →
               </a>
             </div>
           </div>

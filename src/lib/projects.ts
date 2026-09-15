@@ -12,9 +12,43 @@ export type Project = {
    * is ~2.4:1, so covering a 0.35:1 image crops away most of the screen.
    */
   imageFit?: 'cover' | 'contain';
+  /** Personal projects built end-to-end, shown ahead of professional work. */
+  featured?: boolean;
+  liveDemo?: string;
+  github?: string;
 };
 
 export const projects: Project[] = [
+  {
+    title: 'LapakBenz',
+    description:
+      'Community and event platform for Indonesian UMKM and automotive communities, combining a multi-vendor marketplace, event listings, and merchant onboarding in one app.',
+    stack: ['React', 'TypeScript', 'Vite', 'React Query', 'Zustand', 'React Router', 'Tailwind CSS'],
+    role: 'Solo Frontend Developer',
+    highlight:
+      'Built a custom static-HTML pre-rendering pipeline so the client-rendered SPA stays crawlable and produces correct Open Graph previews for every product, event, and merchant page.',
+    slug: 'lapakbenz',
+    image: '/images/lapakbenz.png',
+    imageFit: 'contain',
+    featured: true,
+    liveDemo: 'https://lapakbenzz.vercel.app/',
+    github: 'https://github.com/Wridho788/lapakbenz',
+  },
+  {
+    title: 'RavaSIM',
+    description:
+      'Frontend-first eSIM management SaaS dashboard — package browsing, checkout, device registration, and usage tracking, architected so a real backend can be plugged in without refactoring.',
+    stack: ['Next.js', 'React', 'TypeScript', 'Mantine UI', 'React Query', 'Zustand', 'Yup'],
+    role: 'Solo Frontend Developer',
+    highlight:
+      'Designed a feature-based modular architecture (api/hooks/services/types per module) with a mock service layer that mirrors a real API contract, so integrating a backend later is a swap, not a rewrite.',
+    slug: 'ravasim',
+    image: '/images/ravasim.png',
+    imageFit: 'contain',
+    featured: true,
+    liveDemo: 'https://ravasim.vercel.app',
+    github: 'https://github.com/Wridho788/ravasim',
+  },
   {
     title: 'ERP–POS Mobile Application',
     description:
@@ -30,7 +64,7 @@ export const projects: Project[] = [
     title: 'Internal & Public Web Applications',
     description:
       'Enterprise internal systems and public-facing web applications built to support business operations and user-facing workflows.',
-    stack: ['React.js', 'Next.js', 'TypeScript', 'Zustand', 'React Query'],
+    stack: ['React', 'Next.js', 'TypeScript', 'Zustand', 'React Query'],
     role: 'Frontend Web Engineer',
     highlight:
       'Designed scalable frontend architecture with clear separation of concerns, reusable components, and structured client/server state management.',
@@ -52,7 +86,7 @@ export const projects: Project[] = [
     title: 'Internal Retail & Marketing System',
     description:
       'Internal retail and marketing web system for sales data recording and business process support.',
-    stack: ['React.js', 'TypeScript', 'Redux', 'React Hooks', 'Odoo ERP'],
+    stack: ['React', 'TypeScript', 'Redux', 'React Hooks', 'Odoo ERP'],
     role: 'Frontend Engineer',
     highlight:
       'Integrated frontend system with Odoo ERP and implemented structured state handling for sales and marketing data.',
