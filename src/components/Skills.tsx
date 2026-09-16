@@ -1,16 +1,19 @@
 import { skills } from '@/lib/skills';
+import Reveal from './Reveal';
 
 export default function Skills() {
   return (
     <section id="skills" className="py-32">
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-semibold mb-12">
-          Skills
-        </h2>
+        <Reveal>
+          <h2 className="text-3xl md:text-4xl font-semibold mb-12">
+            Skills
+          </h2>
+        </Reveal>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {Object.entries(skills).map(([group, items]) => (
-            <div key={group}>
+          {Object.entries(skills).map(([group, items], i) => (
+            <Reveal key={group} delay={i * 80}>
               <h3 className="text-[--color-primary] font-medium mb-4 capitalize">
                 {group.replace(/([A-Z])/g, ' $1')}
               </h3>
@@ -25,7 +28,7 @@ export default function Skills() {
                   </span>
                 ))}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

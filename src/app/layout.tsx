@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter, Sora } from 'next/font/google';
 import './globals.css';
+import CursorSpotlight from '@/components/CursorSpotlight';
+import CommandPalette from '@/components/CommandPalette';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -56,7 +58,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <body className="antialiased">
+        <CursorSpotlight />
         {children}
+        <CommandPalette />
       </body>
     </html>
   );

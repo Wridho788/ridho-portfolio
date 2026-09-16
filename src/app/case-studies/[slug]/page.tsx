@@ -1,8 +1,8 @@
 import { caseStudies } from '@/lib/caseStudies';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import TransitionLink from '@/components/TransitionLink';
 
 export function generateStaticParams() {
   return caseStudies.map((cs) => ({
@@ -80,6 +80,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 ? 'h-[420px] md:h-[560px] bg-black/20'
                 : 'h-64 md:h-96'
             }`}
+            style={{ viewTransitionName: `project-image-${cs.slug}` }}
           >
             <Image
               src={cs.image}
@@ -144,12 +145,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/10">
-          <Link
+          <TransitionLink
             href="/#projects"
             className="text-[--color-primary] hover:underline inline-flex items-center gap-2"
           >
             ← Back to Projects
-          </Link>
+          </TransitionLink>
         </div>
 
       </div>

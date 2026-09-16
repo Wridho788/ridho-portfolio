@@ -1,6 +1,14 @@
+'use client';
+
+import { useEffect, useRef, useState, type CSSProperties, type MouseEvent } from 'react';
 import { Project } from '@/lib/projects';
 import { caseStudies } from '@/lib/caseStudies';
 import Image from 'next/image';
+import TransitionLink from './TransitionLink';
+
+const RESET_STYLE: CSSProperties = {
+  transform: 'perspective(800px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
+};
 
 export default function ProjectCard({ project }: { project: Project }) {
   // Only link to a case study that actually exists — `output: 'export'` only
@@ -9,14 +17,43 @@ export default function ProjectCard({ project }: { project: Project }) {
   const hasCaseStudy = caseStudies.some((cs) => cs.slug === project.slug);
   const contain = project.imageFit === 'contain';
 
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [style, setStyle] = useState<CSSProperties>(RESET_STYLE);
+  const tiltEnabled = useRef(false);
+
+  useEffect(() => {
+    tiltEnabled.current =
+      window.matchMedia('(pointer: fine)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }, []);
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!tiltEnabled.current || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const rotateX = ((y - rect.height / 2) / rect.height) * -6;
+    const rotateY = ((x - rect.width / 2) / rect.width) * 6;
+    setStyle({
+      transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`,
+    });
+  };
+
   return (
-    <div className="h-full flex flex-col bg-[--color-surface] border border-white/10 rounded-xl overflow-hidden hover:shadow-[--shadow-soft] transition group">
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => setStyle(RESET_STYLE)}
+      style={{ ...style, transition: 'transform 150ms ease-out' }}
+      className="h-full flex flex-col bg-[--color-surface] border border-white/10 rounded-xl overflow-hidden hover:shadow-[--shadow-soft] transition-shadow group will-change-transform"
+    >
 
       {project.image && (
         <div
           className={`relative h-48 overflow-hidden ${
             contain ? 'bg-black/20' : ''
           }`}
+          style={hasCaseStudy ? { viewTransitionName: `project-image-${project.slug}` } : undefined}
         >
           <Image
             src={project.image}
@@ -68,12 +105,12 @@ export default function ProjectCard({ project }: { project: Project }) {
 
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
           {hasCaseStudy && (
-            <a
-              href={`/case-studies/${project.slug}`}
+            <TransitionLink
+              href={`/case-studies/${project.slug}/`}
               className="text-[--color-primary] text-sm hover:underline inline-flex items-center gap-1"
             >
               View Case Study →
-            </a>
+            </TransitionLink>
           )}
 
           {project.liveDemo && (
