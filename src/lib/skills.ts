@@ -1,8 +1,5 @@
-// Only named, checkable technologies belong here. Self-assessed categories
-// ('Performance Optimization', 'REST API Integration', 'Git') were removed:
-// every candidate claims them, so they add noise without adding signal.
-// Demonstrate those through the case studies instead, where they can be
-// backed by what was actually built.
+// Kept in sync with the CV's Expertise section — same tools listed in both
+// places so a recruiter cross-checking the two doesn't find a mismatch.
 export const skills = {
   web: [
     'React',
@@ -20,6 +17,11 @@ export const skills = {
     'React Query',
     'Firebase',
   ],
+  apiAndBackend: [
+    'REST API',
+    'Axios',
+    'Node.js',
+  ],
   styling: [
     'Tailwind CSS',
     'Material-UI',
@@ -29,5 +31,13 @@ export const skills = {
     'Playwright',
     'Maestro',
     'End-to-End Test Automation',
+  ],
+  toolsAndWorkflow: [
+    'Git',
+    'GitLab',
+    'Swagger',
+    'Docker',
+    'Jira',
+    'CI/CD',
   ],
 };

@@ -11,20 +11,20 @@ export default function Hero() {
             <p className="text-[--color-primary] mb-4">Hi, I&apos;m Ridho</p>
 
             <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Frontend & Full-Stack Developer
+              Frontend Engineer
               <br />
               <span className="text-[--color-primary]">
-                React, Next.js & TypeScript — From UI to API
+                Expanding Into Full-Stack Development
               </span>
             </h1>
 
             <p className="mt-6 text-[--color-textMuted] max-w-xl leading-relaxed">
               I build production web and mobile applications with React,
-              Next.js, TypeScript, REST APIs, and state management tools like
-              React Query and Zustand — plus Flutter and Android Kotlin for
-              mobile. I also bring the same rigor to automated testing with
-              Playwright and Maestro, so what ships is verified, not just
-              demoed.
+              Next.js, and TypeScript — frontend architecture, state
+              management, REST API integration, and responsive UI. I work
+              closely with product and backend teams to ship maintainable
+              features, and bring the same rigor to automated testing with
+              Playwright and Maestro.
             </p>
 
             <div className="mt-10 flex gap-4 flex-wrap">
