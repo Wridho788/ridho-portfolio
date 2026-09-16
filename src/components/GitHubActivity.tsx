@@ -5,7 +5,7 @@ const GITHUB_USERNAME = 'Wridho788';
 const featuredRepos = [
   {
     name: 'lapakbenz',
-    description: 'Community, event, and multi-vendor marketplace platform.',
+    description: 'Vehicle marketplace and community platform for Indonesian automotive communities.',
     url: `https://github.com/${GITHUB_USERNAME}/lapakbenz`,
   },
   {

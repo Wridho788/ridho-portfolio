@@ -20,9 +20,9 @@ export const caseStudies: CaseStudy[] = [
     slug: 'lapakbenz',
     title: 'LapakBenz',
     summary:
-      'A community, event, and multi-vendor marketplace platform for Indonesian UMKM and automotive communities, built as a client-rendered SPA with a custom SEO pipeline.',
+      'A vehicle marketplace and community/event platform for Indonesian automotive communities and UMKM, built as a client-rendered SPA with a custom SEO pipeline.',
     overview:
-      'A community, event, and multi-vendor marketplace platform for Indonesian UMKM and automotive communities — merchants register and manage storefronts, shoppers browse and buy, and members discover events, all in one React SPA.',
+      'A vehicle marketplace and community platform for Indonesian automotive communities and UMKM — merchants register and manage storefronts, shoppers browse and buy, and members discover events, all in one React SPA.',
     contribution: [
       'Built the frontend end-to-end solo: product catalog, cart, checkout, order tracking, wallet/points, vouchers, wishlist, merchant registration, and event pages.',
       'Structured the API layer with React Query hooks and types separated per domain (product, cart, order, event, voucher, wishlist, shipping, partner).',

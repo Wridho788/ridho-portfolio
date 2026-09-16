@@ -22,7 +22,7 @@ export const projects: Project[] = [
   {
     title: 'LapakBenz',
     description:
-      'Community and event platform for Indonesian UMKM and automotive communities, combining a multi-vendor marketplace, event listings, and merchant onboarding in one app.',
+      'Vehicle marketplace and community platform for Indonesian automotive communities and UMKM, combining product listings, events, and merchant onboarding in one app.',
     stack: ['React', 'TypeScript', 'Vite', 'React Query', 'Zustand', 'React Router', 'Tailwind CSS'],
     role: 'Solo Frontend Developer',
     highlight:

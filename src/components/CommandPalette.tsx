@@ -20,7 +20,7 @@ const COMMANDS: Command[] = [
   { id: 'writing', label: 'Writing', hint: 'Articles & notes', group: 'Navigate', href: '/writing' },
   { id: 'contact', label: 'Contact', hint: 'Get in touch', group: 'Navigate', href: '/#contact' },
 
-  { id: 'lapakbenz-case', label: 'LapakBenz — Case Study', hint: 'Community & marketplace platform', group: 'Projects', href: '/case-studies/lapakbenz/' },
+  { id: 'lapakbenz-case', label: 'LapakBenz — Case Study', hint: 'Vehicle marketplace & community platform', group: 'Projects', href: '/case-studies/lapakbenz/' },
   { id: 'lapakbenz-demo', label: 'LapakBenz — Live Demo', hint: 'lapakbenzz.vercel.app', group: 'Projects', href: 'https://lapakbenzz.vercel.app/', external: true },
   { id: 'ravasim-case', label: 'RavaSIM — Case Study', hint: 'eSIM management SaaS dashboard', group: 'Projects', href: '/case-studies/ravasim/' },
   { id: 'ravasim-demo', label: 'RavaSIM — Live Demo', hint: 'ravasim.vercel.app', group: 'Projects', href: 'https://ravasim.vercel.app', external: true },
