@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ridho Wahyu Nugroho — portfolio
 
-## Getting Started
+Personal portfolio for Ridho, a frontend and mobile engineer with experience in web products, field applications, and QA automation. The site presents selected work with clear distinctions between professional projects, public source, and prototypes.
 
-First, run the development server:
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`. The site uses Next.js 16, React 19, TypeScript, and Tailwind CSS 4. It is configured for static export.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Checks
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm lint
+pnpm exec tsc --noEmit
+pnpm build
+```
 
-## Learn More
+## Motion and browser verification
 
-To learn more about Next.js, take a look at the following resources:
+Motion uses CSS, Web Animations, and native cross-document View Transitions without an animation dependency. Hero entrances finish within one second. Scroll reveals run once per page visit and never permanently hide server-rendered content. Reduced motion disables entrances, scroll reveals, hover movement, and page transitions.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Case-study links deliberately use document navigation to share the project image between pages. Browsers without View Transitions use ordinary navigation. Mobile navigation supports Tab, Escape, an inert closed panel, and a no-JavaScript fallback.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To run the browser checks, build the site and serve the static output in one terminal:
 
-## Deploy on Vercel
+```bash
+pnpm build
+python -m http.server 4173 --bind 127.0.0.1 --directory out
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+In a second PowerShell terminal, start a dedicated headless Chrome instance and run the checks (Node.js 22+):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+$motionChromePath = Join-Path $env:ProgramFiles 'Google/Chrome/Application/chrome.exe'
+$motionProfilePath = Join-Path $PWD '.chrome-motion-check'
+Start-Process $motionChromePath -WindowStyle Hidden -ArgumentList @('--headless=new', '--remote-debugging-port=9222', ('--user-data-dir="{0}"' -f $motionProfilePath), 'about:blank')
+node scripts/verify-motion.mjs
+```
+
+The check covers hero and scroll animations, hover, shared-image navigation, timeline progress, active navigation, mobile keyboard interaction, 320/390/1440px widths, reduced motion, and disabled JavaScript. Screenshots are written to ignored `preview-motion-*.png` files. `MOTION_BASE_URL` and `CDP_URL` can override the default local addresses. Close the dedicated Chrome instance after verification.
+
+Below 768px, Selected Work, More Product Work, Capabilities, and homepage Writing use native scroll-snap sliders. They retain every card, show the next card edge, and provide position counters and 44px previous/next controls. Arrow keys, Home/End, and focus navigation work within each track. Swiping also works without JavaScript; reduced motion makes button-driven movement instant. Desktop retains the original stacked/grid layouts.
+
+With the same preview and Chrome setup, run `node scripts/verify-sliders.mjs` for touch gestures, controls, keyboard focus, first/last boundaries, independent sliders, responsive layouts, and no-JavaScript/reduced-motion checks. It writes ignored `preview-sliders-*.png` screenshots.
+
+## Content and assets
+
+- `src/lib/projects.ts` controls homepage project cards, labels, and image captions.
+- `src/lib/caseStudies.ts` supplies case study content. Add a corresponding entry when adding a project card.
+- `src/lib/experience.ts` contains employment dates and summaries; keep it aligned with `public/Ridho-CV.pdf`.
+- `src/lib/posts.ts` lists articles; full article content lives in `src/app/writing/[slug]/page.tsx`.
+- `public/images/` contains original project screenshots. Captions indicate when an image is from a wider product ecosystem rather than the exact flow described.
+- `scripts/generate_og.py` regenerates the Open Graph banner and favicon. `scripts/generate_cv.py` regenerates the selectable CV.
+
+Private professional projects intentionally omit source and live links. Do not publish confidential screenshots or numerical outcome claims without permission and supporting measurements.

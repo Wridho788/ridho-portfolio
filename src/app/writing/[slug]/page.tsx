@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import Link from 'next/link';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 
 export function generateStaticParams() {
   return posts.map((post) => ({
@@ -99,7 +100,7 @@ const articleContent: Record<string, React.ReactElement> = {
       </p>
 
       <p className="mb-6">
-        We switched to Zustand not because it was trendy, but because it reduced cognitive load for the team. Suddenly, state updates became colocated with their logic. Feature development accelerated by 40%.
+        We switched to Zustand to reduce the number of files a small UI state change required. State updates became easier to follow and maintain, especially when a feature changed hands between developers.
       </p>
 
       <h2 className="text-2xl font-semibold mt-12 mb-4">Decision Framework</h2>
@@ -107,7 +108,7 @@ const articleContent: Record<string, React.ReactElement> = {
         Here&apos;s what I consider now when choosing state management:
       </p>
 
-      <ul className="list-disc list-inside mb-6 space-y-2 text-[--color-textMuted]">
+      <ul className="list-disc list-inside mb-6 space-y-2 text-[var(--color-textMuted)]">
         <li>Team size and experience level</li>
         <li>Feature velocity requirements</li>
         <li>Debugging and testing needs</li>
@@ -135,7 +136,7 @@ const articleContent: Record<string, React.ReactElement> = {
         We implemented a queue-based synchronization system where transactions are stored locally first, then synced when connectivity is available. Critical decisions included:
       </p>
 
-      <ul className="list-disc list-inside mb-6 space-y-2 text-[--color-textMuted]">
+      <ul className="list-disc list-inside mb-6 space-y-2 text-[var(--color-textMuted)]">
         <li>Using AsyncStorage with encryption for sensitive data</li>
         <li>Implementing conflict resolution for concurrent edits</li>
         <li>Building a priority queue system for sync operations</li>
@@ -163,7 +164,7 @@ const articleContent: Record<string, React.ReactElement> = {
         In practice, I focus on three core principles:
       </p>
 
-      <ul className="list-disc list-inside mb-6 space-y-2 text-[--color-textMuted]">
+      <ul className="list-disc list-inside mb-6 space-y-2 text-[var(--color-textMuted)]">
         <li>Separation of concerns: UI components shouldn&apos;t know about API details</li>
         <li>Dependency direction: Business logic should never depend on UI frameworks</li>
         <li>Testability: Core logic should be testable without rendering components</li>
@@ -175,7 +176,7 @@ const articleContent: Record<string, React.ReactElement> = {
 
       <h2 className="text-2xl font-semibold mt-12 mb-4">Real-World Benefits</h2>
       <p className="mb-6">
-        When we restructured our e-commerce platform with these principles, we reduced bug rates by 60% and cut average feature development time in half. New team members could understand and contribute to the codebase within days instead of weeks.
+        In practice, the clearest benefit was being able to change the API-facing code without tracing its details through every screen. That made reviews and onboarding easier because the responsibility of each layer was clearer.
       </p>
     </>
   ),
@@ -191,38 +192,22 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <>
       <Navigation />
-      <article className="py-32">
-      <div className="max-w-3xl mx-auto px-6">
-
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          {post.title}
-        </h1>
-
-        <p className="text-[--color-textMuted] mb-12">
-          {new Date(post.date).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </p>
-
-        <div className="prose prose-invert max-w-none text-[--color-textMuted]">
-          {content || (
-            <p>Content coming soon...</p>
-          )}
-        </div>
-
-        <div className="mt-16 pt-8 border-t border-white/10">
-          <Link
-            href="/writing"
-            className="text-[--color-primary] hover:underline inline-flex items-center gap-2"
-          >
-            ← Back to Writing
-          </Link>
-        </div>
-
-      </div>
-    </article>
+      <main id="main-content">
+        <article className="site-container max-w-[780px] py-15 md:py-20">
+          <Link href="/writing" className="text-link text-sm">← All writing</Link>
+          <header className="mt-13 border-b border-[var(--color-line)] pb-10">
+            <p className="section-kicker mb-4">Field notes</p>
+            <h1 className="text-4xl font-bold leading-tight md:text-5xl">{post.title}</h1>
+            <time dateTime={post.date} className="mt-5 block text-sm text-[var(--color-textMuted)]">
+              {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <p className="mt-5 text-lg leading-relaxed text-[var(--color-textMuted)]">{post.summary}</p>
+          </header>
+          <div className="article-copy pt-10">{content || <p>Content coming soon.</p>}</div>
+          <div className="mt-15 border-t border-[var(--color-line)] pt-7"><Link href="/writing" className="text-link">← Back to writing</Link></div>
+        </article>
+      </main>
+      <Footer />
     </>
   );
 }

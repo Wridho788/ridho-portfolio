@@ -2,21 +2,15 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 py-8">
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        
-        <p className="text-sm text-[--color-textMuted]">
-          © {new Date().getFullYear()} Ridho. All rights reserved.
-        </p>
-
-        <div className="flex gap-4 text-sm">
-          <a href="#projects" className="hover:text-[--color-primary] transition">Projects</a>
-          <a href="#experience" className="hover:text-[--color-primary] transition">Experience</a>
-          <a href="#skills" className="hover:text-[--color-primary] transition">Skills</a>
-          <a href="#github-activity" className="hover:text-[--color-primary] transition">GitHub</a>
-          <Link href="/writing" className="hover:text-[--color-primary] transition">Writing</Link>
-          <a href="#contact" className="hover:text-[--color-primary] transition">Contact</a>
-        </div>
+    <footer className="border-t border-[#38515a] bg-[var(--color-textMain)] py-7 text-[#d5dddd]">
+      <div className="site-container flex flex-wrap items-center justify-between gap-4 text-sm">
+        <p>© {new Date().getFullYear()} Ridho Wahyu Nugroho</p>
+        <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-5 gap-y-2">
+          <Link href="/#projects" className="hover:text-white">Work</Link>
+          <Link href="/#experience" className="hover:text-white">Experience</Link>
+          <Link href="/writing" className="hover:text-white">Writing</Link>
+          <a href="mailto:wridho246@gmail.com" className="hover:text-white">Email</a>
+        </nav>
       </div>
     </footer>
   );

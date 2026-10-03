@@ -1,68 +1,44 @@
 import type { Metadata } from 'next';
 import { Inter, Sora } from 'next/font/google';
 import './globals.css';
-import CursorSpotlight from '@/components/CursorSpotlight';
-import CommandPalette from '@/components/CommandPalette';
+import MotionEffects from '@/components/MotionEffects';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-});
-
-const sora = Sora({
-  subsets: ['latin'],
-  variable: '--font-sora',
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const sora = Sora({ subsets: ['latin'], variable: '--font-sora' });
 
 export const metadata: Metadata = {
   title: {
-    default: 'Ridho — Frontend Engineer',
-    template: '%s | Ridho',
+    default: 'Ridho Wahyu Nugroho | Frontend & Mobile Engineer',
+    template: '%s | Ridho Wahyu Nugroho',
   },
   description:
-    'Frontend Engineer specializing in React, Next.js, and TypeScript, with experience in frontend architecture, state management, REST API integration, and responsive UI development — continuing to expand into full-stack development.',
+    'Ridho Wahyu Nugroho builds reliable web and mobile products with React, Next.js, Flutter and Kotlin, and verifies critical journeys with Playwright and Maestro.',
   metadataBase: new URL('https://ridho-portfolio.vercel.app'),
   openGraph: {
-    title: 'Ridho — Frontend Engineer',
-    description:
-      'Building production-ready web and mobile applications with React, Next.js, and TypeScript.',
+    title: 'Ridho Wahyu Nugroho | Frontend & Mobile Engineer',
+    description: 'Web and mobile products built for real use, with testing that helps keep them working.',
     url: 'https://ridho-portfolio.vercel.app',
-    siteName: 'Ridho Portfolio',
-    images: ['/og-image.png'],
+    siteName: 'Ridho Wahyu Nugroho',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Ridho Wahyu Nugroho — Frontend & Mobile Engineer' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ridho — Frontend Engineer',
-    description: 'Building production-ready web and mobile applications with React, Next.js, and TypeScript.',
+    title: 'Ridho Wahyu Nugroho | Frontend & Mobile Engineer',
+    description: 'Web and mobile products built for real use, with testing that helps keep them working.',
     images: ['/og-image.png'],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
-      <body className="antialiased">
-        <CursorSpotlight />
+      <body>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         {children}
-        <CommandPalette />
+        <MotionEffects />
       </body>
     </html>
   );
 }
-

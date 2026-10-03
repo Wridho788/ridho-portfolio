@@ -1,46 +1,16 @@
-import Reveal from './Reveal';
-
 export default function Contact() {
   return (
-    <section id="contact" className="py-32 bg-[--color-surface]">
-      <div className="max-w-6xl mx-auto px-6 text-center">
-        <Reveal>
-          <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-            Let&apos;s Work Together
-          </h2>
-
-          <p className="text-[--color-textMuted] max-w-xl mx-auto mb-10">
-            Have a project, role, or collaboration in mind?
-            Feel free to reach out — I&apos;m always open to discussing meaningful work.
-          </p>
-
-          <div className="flex justify-center gap-6 flex-wrap">
-            <a
-              href="mailto:wridho246@gmail.com"
-              className="bg-[--color-primary] text-white px-6 py-3 rounded-xl hover:shadow-[--shadow-glow] transition"
-            >
-              Email Me
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/ridho-wahyu-nugroho-4a1544142/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-white/20 px-6 py-3 rounded-xl hover:bg-white/5 transition"
-            >
-              LinkedIn
-            </a>
-
-            <a
-              href="https://github.com/Wridho788"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-white/20 px-6 py-3 rounded-xl hover:bg-white/5 transition"
-            >
-              GitHub
-            </a>
-          </div>
-        </Reveal>
+    <section id="contact" className="bg-[var(--color-textMain)] py-20 text-white md:py-28">
+      <div data-reveal className="site-container grid gap-10 md:grid-cols-[1.1fr_.9fr] md:items-end">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[.16em] text-[#9fd4cd]">05 / Contact</p>
+          <h2 className="mt-5 max-w-2xl text-4xl font-bold leading-tight md:text-6xl">Let’s make the next product work better.</h2>
+        </div>
+        <div className="md:justify-self-end">
+          <p className="max-w-md leading-relaxed text-[#c9d4d4]">Building a web or mobile product, improving a complex workflow, or strengthening release confidence? Tell me what you’re working on.</p>
+          <a href="mailto:wridho246@gmail.com?subject=Project%20conversation" className="contact-button mt-7 inline-flex min-h-13 items-center gap-3 rounded-lg bg-white px-5 py-3 font-bold text-[var(--color-textMain)] hover:bg-[#dfeae6]">wridho246@gmail.com <span aria-hidden="true">↗</span></a>
+          <p className="mt-4 text-sm text-[#c9d4d4]">You can also connect on <a className="underline underline-offset-4" href="https://www.linkedin.com/in/ridho-wahyu-6b08613a2/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+        </div>
       </div>
     </section>
   );

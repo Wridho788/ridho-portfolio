@@ -2,95 +2,38 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 py-32">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Text */}
-          <div>
-            <p className="text-[--color-primary] mb-4">Hi, I&apos;m Ridho</p>
-
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight">
-              Frontend Engineer
-              <br />
-              <span className="text-[--color-primary]">
-                Expanding Into Full-Stack Development
-              </span>
-            </h1>
-
-            <p className="mt-6 text-[--color-textMuted] max-w-xl leading-relaxed">
-              I build production web and mobile applications with React,
-              Next.js, and TypeScript — frontend architecture, state
-              management, REST API integration, and responsive UI. I work
-              closely with product and backend teams to ship maintainable
-              features, and bring the same rigor to automated testing with
-              Playwright and Maestro.
-            </p>
-
-            <div className="mt-10 flex gap-4 flex-wrap">
-              <a
-                href="#projects"
-                className="bg-[--color-primary] text-white px-6 py-3 rounded-xl font-medium hover:shadow-[--shadow-glow] transition"
-              >
-                View Projects
-              </a>
-
-              <a
-                href="/Ridho-CV.pdf"
-                className="border border-white/20 px-6 py-3 rounded-xl hover:bg-white/5 transition"
-              >
-                Download CV
-              </a>
-            </div>
-
-            <div className="mt-5 flex gap-6 flex-wrap text-sm">
-              <a
-                href="https://github.com/Wridho788"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[--color-textMuted] hover:text-[--color-primary] transition inline-flex items-center gap-1"
-              >
-                GitHub →
-              </a>
-
-              <a
-                href="#contact"
-                className="text-[--color-textMuted] hover:text-[--color-primary] transition inline-flex items-center gap-1"
-              >
-                Contact →
-              </a>
-            </div>
+    <section className="relative overflow-hidden border-b border-[var(--color-line)]">
+      <div className="site-container grid gap-10 py-18 md:py-24 lg:grid-cols-[1.15fr_.85fr] lg:items-center lg:gap-18">
+        <div className="max-w-2xl">
+          <p className="hero-enter hero-intro section-kicker mb-5">Ridho Wahyu Nugroho · Frontend & Mobile Engineer</p>
+          <h1 className="hero-enter hero-title max-w-3xl text-[clamp(2.7rem,6.4vw,5.7rem)] leading-[1.08] font-bold">
+            I build products people can <span className="text-[var(--color-primary)]">rely on.</span>
+          </h1>
+          <p className="hero-enter hero-description mt-7 max-w-xl text-lg leading-relaxed text-[var(--color-textMuted)]">
+            I turn complex web and mobile workflows into usable products, then test the journeys that matter with Playwright and Maestro. Seven years across customer products, internal tools, and field operations.
+          </p>
+          <div className="hero-enter hero-actions mt-9 flex flex-wrap gap-3">
+            <a href="#projects" className="button-primary">Explore selected work <span aria-hidden="true">↗</span></a>
+            <a href="mailto:wridho246@gmail.com" className="button-secondary">Start a conversation</a>
           </div>
-
-          {/* Visual */}
-                    <div className="hidden lg:block relative">
-            <div className="absolute inset-0 bg-[--color-primary]/10 blur-3xl rounded-full" />
-            
-            {/* Profile Image */}
-            <div className="relative mb-6">
-              <div className="relative w-70 h-60 mx-auto rounded-full overflow-hidden border-4 border-[--color-primary]/30 shadow-[--shadow-glow]">
-                <Image
-                  src="/images/profile.jpeg"
-                  alt="Ridho Profile"
-                  fill
-                  sizes="280px"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-
-            <div className="relative bg-[--color-surface] border border-white/10 rounded-xl p-8 shadow-[--shadow-soft]">
-              <p className="text-sm text-[--color-textMuted]">
-                7+ years experience • Web & Mobile • Production-ready mindset
-              </p>
-            </div>
+          <div className="hero-enter hero-actions mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-semibold">
+            <a href="/Ridho-CV.pdf" className="text-link" download>Download CV ↓</a>
+            <a href="https://github.com/Wridho788" target="_blank" rel="noopener noreferrer" className="text-link">GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/ridho-wahyu-nugroho-4a1544142/" target="_blank" rel="noopener noreferrer" className="text-link">LinkedIn ↗</a>
           </div>
+        </div>
 
+        <div className="hero-enter hero-portrait relative mx-auto w-full max-w-[420px] lg:max-w-none">
+          <div className="absolute -right-4 -top-4 h-full w-full rounded-2xl border border-[var(--color-accent)]/35" aria-hidden="true" />
+          <div className="relative overflow-hidden rounded-2xl bg-[#0d3c46]">
+            <Image src="/images/profile.jpeg" alt="Portrait of Ridho Wahyu Nugroho" width={864} height={1080} priority className="aspect-[4/4.5] w-full object-cover object-top" sizes="(min-width: 1024px) 420px, (min-width: 640px) 380px, 90vw" />
+          </div>
+          <div className="absolute -bottom-5 -left-3 rounded-lg border border-[var(--color-line)] bg-white px-4 py-3 shadow-lg sm:-left-6">
+            <p className="text-[10px] font-bold uppercase tracking-[.15em] text-[var(--color-primary)]">What I bring</p>
+            <p className="mt-1 text-sm font-bold">Product engineering + QA</p>
+          </div>
         </div>
       </div>
-
-      {/* Background Accent */}
-      <div className="absolute top-[-100px] right-[-100px] w-[300px] h-[300px] bg-[--color-accent]/20 rounded-full blur-3xl" />
     </section>
   );
 }

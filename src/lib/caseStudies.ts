@@ -20,7 +20,7 @@ export const caseStudies: CaseStudy[] = [
     slug: 'lapakbenz',
     title: 'LapakBenz',
     summary:
-      'A vehicle marketplace and community/event platform for Indonesian automotive communities and UMKM, built as a client-rendered SPA with a custom SEO pipeline.',
+      'One frontend for vehicle discovery, merchant journeys, and community events — with a separate challenge of making every product page shareable and crawlable.',
     overview:
       'A vehicle marketplace and community platform for Indonesian automotive communities and UMKM — merchants register and manage storefronts, shoppers browse and buy, and members discover events, all in one React SPA.',
     contribution: [
@@ -51,7 +51,7 @@ export const caseStudies: CaseStudy[] = [
     slug: 'ravasim',
     title: 'RavaSIM',
     summary:
-      'A frontend-only eSIM management SaaS dashboard demonstrating production-style architecture — package browsing, checkout, device management, and usage tracking, ready to plug into a real backend.',
+      'An eSIM management prototype that makes package, checkout, and device journeys explorable while keeping simulated responses separate from the interface.',
     overview:
       'A frontend-only eSIM management SaaS dashboard — package browsing, checkout, eSIM activation, device registration, and usage tracking — built to demonstrate a production-style architecture without a real backend in place yet.',
     contribution: [
@@ -61,7 +61,7 @@ export const caseStudies: CaseStudy[] = [
     ],
     highlights: [
       'Feature-based modular architecture — every module talks to its service layer the same way, whether the call is mocked or real.',
-      'Mock API layer that mirrors a real API contract, so swapping in a backend is a replacement, not a rewrite.',
+      'Mock service boundary that keeps simulated responses out of UI components and provides a starting point for future backend integration.',
       'Mantine UI for the component layer, Yup for schema validation.',
     ],
     challenges: [
@@ -69,7 +69,7 @@ export const caseStudies: CaseStudy[] = [
       "Async UI states (loading, error, race conditions) don't show up naturally against instant mock responses — solved with a shared mock-delay adapter so those states are actually exercised during development.",
     ],
     impact: [
-      'Demonstrates a full SaaS workflow — auth, marketplace, checkout, device and eSIM management — where integrating a real backend later is a matter of replacing the mock implementation, not restructuring the app.',
+      'The prototype lets reviewers explore package discovery, checkout, and eSIM management flows. Backend integration and real transactions are outside the current scope.',
     ],
     stack: ['Next.js', 'React', 'TypeScript', 'Mantine UI', 'React Query', 'Zustand', 'Yup'],
     image: '/images/ravasim.png',
@@ -81,18 +81,18 @@ export const caseStudies: CaseStudy[] = [
     slug: 'erp-pos',
     title: 'ERP–POS Mobile Application',
     summary:
-      'A cross-platform ERP–POS system used for daily sales operations and inventory management.',
+      'Retail sales and inventory workflows designed to keep recording work when a connection drops, then sync when service returns.',
     overview:
       'A cross-platform ERP–POS system for daily sales operations and inventory management, built for retail environments with unstable internet connectivity where a lost transaction or a miscounted stock item has a direct cost.',
     contribution: [
       'Designed the offline-first data flow so sales and inventory actions are captured locally first, then synced.',
       'Built a queue-based sync mechanism that prioritizes critical transactions and resolves conflicts on reconnect.',
-      'Implemented a local database layer using AsyncStorage with encryption for sensitive data.',
+      'Persisted transaction state locally so interrupted sessions could be resumed and synced.',
       'Optimized data fetching and caching with React Query alongside Zustand for client state.',
     ],
     highlights: [
       'Offline-first architecture with queue-based sync and conflict resolution.',
-      'Encrypted local storage for sensitive transaction data.',
+      'Local persistence for interrupted transaction flows.',
       'React Query for server-state caching, Zustand for client state.',
     ],
     challenges: [
@@ -100,8 +100,7 @@ export const caseStudies: CaseStudy[] = [
       'Conflicting updates on reconnect (e.g., two devices adjusting the same stock count) required an explicit conflict-resolution strategy in the sync queue rather than last-write-wins.',
     ],
     impact: [
-      'Improved transaction reliability by ~95% and reduced sync errors to near-zero.',
-      'Increased daily operational efficiency by around 40%, with a measurable improvement in sales processing speed.',
+      'Sales actions can be captured locally during a connection drop and handed to the sync queue when connectivity returns.',
     ],
     stack: ['React Native', 'TypeScript', 'Zustand', 'React Query', 'AsyncStorage', 'Expo'],
     image: '/images/erp-pos.jpg',
@@ -151,7 +150,7 @@ export const caseStudies: CaseStudy[] = [
       "Local persistence before submission so interrupted sessions don't lose data.",
     ],
     challenges: [
-      'Camera and scanner processing needed to stay responsive on lower-end devices instead of blocking the UI thread — handled by isolating hardware access in services rather than calling it directly from widgets.',
+      'Camera and scanner permissions needed consistent handling across field devices, so hardware access was centralized in dedicated services.',
       "An interrupted session (app killed, connectivity lost mid-entry) shouldn't lose the operator's work — addressed by persisting form state locally before the submission step.",
     ],
     impact: [
@@ -207,7 +206,7 @@ export const caseStudies: CaseStudy[] = [
       'Rebuilding state on every configuration change (rotation) was losing user progress — resolved with ViewModel + LiveData surviving the lifecycle event.',
     ],
     impact: [
-      'Shipped to the Google Play Store with job discovery and the multi-step application flow both running off the main thread, and screen state preserved across rotation and process interruption.',
+      'Shipped to the Google Play Store with network operations off the main thread and screen state preserved across configuration changes such as rotation.',
     ],
     stack: ['Android (Kotlin)', 'MVVM', 'ViewModel', 'LiveData', 'Coroutines'],
     image: '/images/jobseeker-kerjaloka-apps.png',

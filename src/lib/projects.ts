@@ -1,18 +1,14 @@
 export type Project = {
   title: string;
+  slug: string;
+  kind: string;
   description: string;
-  stack: string[];
   role: string;
   highlight: string;
-  slug?: string;
-  image?: string;
-  /**
-   * How the thumbnail fills the card. Default 'cover' suits landscape
-   * screenshots. Use 'contain' for portrait phone screenshots — the card slot
-   * is ~2.4:1, so covering a 0.35:1 image crops away most of the screen.
-   */
+  stack: string[];
+  image: string;
   imageFit?: 'cover' | 'contain';
-  /** Personal projects built end-to-end, shown ahead of professional work. */
+  imageContext: string;
   featured?: boolean;
   liveDemo?: string;
   github?: string;
@@ -21,88 +17,89 @@ export type Project = {
 export const projects: Project[] = [
   {
     title: 'LapakBenz',
-    description:
-      'Vehicle marketplace and community platform for Indonesian automotive communities and UMKM, combining product listings, events, and merchant onboarding in one app.',
-    stack: ['React', 'TypeScript', 'Vite', 'React Query', 'Zustand', 'React Router', 'Tailwind CSS'],
-    role: 'Solo Frontend Developer',
-    highlight:
-      'Built a custom static-HTML pre-rendering pipeline so the client-rendered SPA stays crawlable and produces correct Open Graph previews for every product, event, and merchant page.',
     slug: 'lapakbenz',
+    kind: 'Independent build · Public code',
+    description: 'A vehicle marketplace bringing product discovery, merchant tools, and community events into one experience.',
+    role: 'Solo frontend developer',
+    highlight: 'Built the core shopping journeys and a static HTML pipeline for shareable, crawlable product and event pages.',
+    stack: ['React', 'TypeScript', 'Vite', 'React Query', 'Zustand'],
     image: '/images/lapakbenz.png',
     imageFit: 'contain',
+    imageContext: 'Mobile view of the LapakBenz home screen.',
     featured: true,
     liveDemo: 'https://lapakbenzz.vercel.app/',
     github: 'https://github.com/Wridho788/lapakbenz',
   },
   {
+    title: 'ERP–POS Mobile Application',
+    slug: 'erp-pos',
+    kind: 'Professional work · Private code',
+    description: 'Sales and inventory workflows designed for retail environments where connectivity can drop during a transaction.',
+    role: 'Mobile engineer',
+    highlight: 'Designed the offline capture and sync flow so critical work can continue through network interruptions.',
+    stack: ['React Native', 'TypeScript', 'Zustand', 'React Query'],
+    image: '/images/erp-pos.jpg',
+    imageContext: 'Desktop POS screen from the wider product ecosystem. The mobile offline flow is not shown.',
+  },
+  {
     title: 'RavaSIM',
-    description:
-      'Frontend-first eSIM management SaaS dashboard — package browsing, checkout, device registration, and usage tracking, architected so a real backend can be plugged in without refactoring.',
-    stack: ['Next.js', 'React', 'TypeScript', 'Mantine UI', 'React Query', 'Zustand', 'Yup'],
-    role: 'Solo Frontend Developer',
-    highlight:
-      'Designed a feature-based modular architecture (api/hooks/services/types per module) with a mock service layer that mirrors a real API contract, so integrating a backend later is a swap, not a rewrite.',
     slug: 'ravasim',
+    kind: 'Independent prototype · Mock API',
+    description: 'An eSIM management prototype spanning package discovery, checkout, activation, and usage tracking.',
+    role: 'Solo frontend developer',
+    highlight: 'Separated UI, service contracts, and mock responses so the user journeys can be explored before backend integration.',
+    stack: ['Next.js', 'TypeScript', 'React Query', 'Zustand'],
     image: '/images/ravasim.png',
     imageFit: 'contain',
+    imageContext: 'Mobile dashboard from the RavaSIM frontend prototype.',
     featured: true,
     liveDemo: 'https://ravasim.vercel.app',
     github: 'https://github.com/Wridho788/ravasim',
   },
   {
-    title: 'ERP–POS Mobile Application',
-    description:
-      'Cross-platform ERP–POS system used for daily sales operations and inventory management in retail environments with unstable connectivity.',
-    stack: ['React Native', 'TypeScript', 'Zustand', 'React Query', 'Expo'],
-    role: 'Mobile Engineer',
-    highlight:
-      'Built an offline-first architecture with a queue-based sync mechanism that prioritizes critical transactions and resolves conflicts on reconnect.',
-    slug: 'erp-pos',
-    image: '/images/erp-pos.jpg',
-  },
-  {
     title: 'Internal & Public Web Applications',
-    description:
-      'Enterprise internal systems and public-facing web applications built to support business operations and user-facing workflows.',
-    stack: ['React', 'Next.js', 'TypeScript', 'Zustand', 'React Query'],
-    role: 'Frontend Web Engineer',
-    highlight:
-      'Designed scalable frontend architecture with clear separation of concerns, reusable components, and structured client/server state management.',
     slug: 'internal-public-web',
+    kind: 'Professional work · Private code',
+    description: 'Shared frontend patterns for internal operations and public product journeys.',
+    role: 'Frontend web engineer',
+    highlight: 'Standardized data fetching and reusable form, table, and layout patterns across modules.',
+    stack: ['Next.js', 'TypeScript', 'React Query', 'Zustand'],
     image: '/images/internal-web-apps.webp',
+    imageContext: 'Public site and internal login screen from the same product ecosystem.',
   },
   {
     title: 'Internal Mobile Application',
-    description:
-      'Internal mobile application supporting operational workflows, including data input, camera usage, and barcode/QR scanning.',
-    stack: ['Flutter', 'Dart', 'Provider', 'Camera', 'Barcode / QR Scanner'],
-    role: 'Mobile Engineer',
-    highlight:
-      'Built scalable Flutter architecture using Provider/ChangeNotifier with consistent state flow and long-term maintainability in mind.',
     slug: 'internal-mobile-app',
+    kind: 'Professional work · Private code',
+    description: 'Field and warehouse data capture with camera, barcode, and QR scanning.',
+    role: 'Mobile engineer',
+    highlight: 'Kept partially completed work on-device and isolated camera and scanner access behind services.',
+    stack: ['Flutter', 'Dart', 'Provider'],
     image: '/images/pkt.webp',
+    imageContext: 'A field application screen showing device and scanner controls.',
   },
   {
     title: 'Internal Retail & Marketing System',
-    description:
-      'Internal retail and marketing web system for sales data recording and business process support.',
-    stack: ['React', 'TypeScript', 'Redux', 'React Hooks', 'Odoo ERP'],
-    role: 'Frontend Engineer',
-    highlight:
-      'Integrated frontend system with Odoo ERP and implemented structured state handling for sales and marketing data.',
     slug: 'retail-marketing-system',
+    kind: 'Professional work · Private code',
+    description: 'Sales data entry shaped around staff workflows and connected to Odoo ERP.',
+    role: 'Frontend engineer',
+    highlight: 'Translated ERP data into a clearer sales entry flow with predictable multi-step form state.',
+    stack: ['React', 'TypeScript', 'Redux', 'Odoo ERP'],
     image: '/images/erp-inl.webp',
+    imageContext: 'Login screen of the internal retail and marketing system.',
   },
   {
     title: 'Job Marketplace Mobile Application',
-    description:
-      'Mobile job marketplace application connecting job seekers with employers through job listings and application workflows.',
-    stack: ['Android (Kotlin)', 'MVVM', 'ViewModel', 'LiveData', 'Coroutines'],
-    role: 'Mobile Application Developer',
-    highlight:
-      'Implemented MVVM architecture, managed UI state with ViewModel + LiveData, and handled asynchronous flows using Kotlin Coroutines.',
     slug: 'job-marketplace-app',
+    kind: 'Professional work · Android',
+    description: 'An Android experience for finding jobs and completing a multi-step application.',
+    role: 'Android developer',
+    highlight: 'Modeled application progress explicitly and moved network work off the main thread.',
+    stack: ['Kotlin', 'MVVM', 'Coroutines'],
     image: '/images/jobseeker-kerjaloka-apps.png',
     imageFit: 'contain',
+    imageContext: 'Home screen of the Android job marketplace application.',
+    featured: true,
   },
 ];

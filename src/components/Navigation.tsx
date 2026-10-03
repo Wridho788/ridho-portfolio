@@ -1,118 +1,134 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+const links = [
+  { href: '/#projects', label: 'Work', section: 'projects' },
+  { href: '/#experience', label: 'Experience', section: 'experience' },
+  { href: '/writing', label: 'Writing', section: 'writing' },
+  { href: '/#contact', label: 'Contact', section: 'contact' },
+];
 
 export default function Navigation() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const pageSection = pathname.startsWith('/case-studies') ? 'projects' : pathname.startsWith('/writing') ? 'writing' : '';
+  const active = pageSection || (pathname === '/' ? activeSection : '');
+
+  useEffect(() => {
+    let frame = 0;
+    const sections = links.map(({ section }) => document.getElementById(section)).filter((element): element is HTMLElement => !!element);
+    const update = () => {
+      frame = 0;
+      let section = pageSection;
+      if (pathname === '/') {
+        const readingLine = Math.min(window.innerHeight * 0.35, 240);
+        sections.forEach((element) => {
+          if (element.getBoundingClientRect().top <= readingLine) section = element.id;
+        });
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) section = 'contact';
+        setActiveSection(section);
+      }
+      const nav = navRef.current;
+      const link = nav?.querySelector<HTMLElement>(`[data-section="${section}"]`);
+      if (nav) {
+        nav.style.setProperty('--indicator-x', `${link?.offsetLeft || 0}px`);
+        nav.style.setProperty('--indicator-width', String(link?.offsetWidth || 0));
+        nav.dataset.hasActive = String(!!link);
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    schedule();
+    const resizeObserver = new ResizeObserver(schedule);
+    if (navRef.current) resizeObserver.observe(navRef.current);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+    };
+  }, [pathname, pageSection]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+    const closeOutside = (event: PointerEvent) => {
+      if (!headerRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    document.addEventListener('keydown', closeOnEscape);
+    document.addEventListener('pointerdown', closeOutside);
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => {
+      document.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('pointerdown', closeOutside);
+      desktop.removeEventListener('change', closeOnDesktop);
+    };
+  }, [open]);
+
+  const closeMenu = () => {
+    setOpen(false);
+    buttonRef.current?.focus();
+  };
 
   return (
-    <>
-      {/* Top Navigation */}
-      <nav className="fixed top-0 w-full backdrop-blur-md bg-[--color-background]/70 border-b border-white/10 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link
-            href="/"
-            className="text-xl font-bold text-[--color-primary] hover:opacity-80 transition"
-          >
-            Ridho
-          </Link>
+    <header ref={headerRef} className="site-header sticky top-0 z-50 border-b border-[var(--color-line)] bg-[var(--color-background)]/95 backdrop-blur-md">
+      <div className="site-container flex h-18 items-center justify-between gap-6">
+        <Link href="/" className="font-heading text-lg font-extrabold tracking-tight" onClick={() => setOpen(false)}>
+          Ridho<span className="text-[var(--color-primary)]">.</span>
+          <span className="sr-only"> Home</span>
+        </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex gap-6 text-sm">
-            <NavLink href="/#projects">Projects</NavLink>
-            <NavLink href="/#experience">Experience</NavLink>
-            <NavLink href="/#skills">Skills</NavLink>
-            <NavLink href="/#github-activity">GitHub</NavLink>
-            <NavLink href="/writing">Writing</NavLink>
-            <NavLink href="/#contact">Contact</NavLink>
-          </div>
+        <nav ref={navRef} aria-label="Primary navigation" className="primary-navigation hidden items-center gap-8 md:flex">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} data-section={link.section} aria-current={active === link.section ? 'location' : undefined} className="nav-link py-3 text-sm font-semibold text-[var(--color-textMuted)] hover:text-[var(--color-primary)]">
+              {link.label}
+            </Link>
+          ))}
+          <span className="nav-indicator" aria-hidden="true" />
+        </nav>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-[--color-primary]"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-          >
-            <div className="space-y-1">
-              <span className="block w-6 h-[2px] bg-current" />
-              <span className="block w-6 h-[2px] bg-current" />
-              <span className="block w-6 h-[2px] bg-current" />
+        <a href="mailto:wridho246@gmail.com" className="nav-contact hidden rounded-full border border-[var(--color-textMain)] px-4 py-2 text-xs font-bold hover:bg-[var(--color-textMain)] hover:text-white md:inline-flex">
+          Get in touch <span aria-hidden="true" className="ml-2">↗</span>
+        </a>
+
+        <button ref={buttonRef} type="button" aria-controls="mobile-navigation" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} className="mobile-menu-toggle inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-[var(--color-line)] md:hidden" onClick={() => setOpen((current) => !current)}>
+          <span className="menu-icon" data-open={open} aria-hidden="true"><span /><span /></span>
+        </button>
+      </div>
+
+      <div id="mobile-navigation" className="mobile-menu-panel md:hidden" data-open={open} inert={!open} aria-hidden={!open}>
+        <div className="mobile-menu-clip">
+          <nav aria-label="Mobile navigation" className="border-t border-[var(--color-line)] bg-[var(--color-background)] px-5 py-4 shadow-lg">
+            <div className="site-container flex flex-col">
+              {links.map((link) => (
+                <Link key={link.href} href={link.href} onClick={closeMenu} aria-current={active === link.section ? 'location' : undefined} className="nav-link border-b border-[var(--color-line)] py-3 font-semibold">{link.label}</Link>
+              ))}
+              <a href="mailto:wridho246@gmail.com" onClick={closeMenu} className="py-3 font-semibold text-[var(--color-primary)]">Email Ridho ↗</a>
             </div>
-          </button>
-        </div>
-      </nav>
-
-      {/* Backdrop */}
-      {open && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
-          onClick={() => setOpen(false)}
-        />
-      )}
-
-      {/* Bottom Sheet */}
-      <div
-        className={`fixed bottom-0 left-0 right-0 z-50 md:hidden transform transition-transform duration-300 ${
-          open ? 'translate-y-0' : 'translate-y-full'
-        }`}
-      >
-        <div className="rounded-t-2xl bg-white text-gray-900 border-t border-gray-400 px-6 py-6">
-
-          {/* Handle */}
-          <div className="w-10 h-1 bg-white/20 rounded-full mx-auto mb-6" />
-
-          <div className="flex flex-col divide-y divide-gray-200">
-            <SheetLink href="/#projects" onClick={() => setOpen(false)}>
-              Projects
-            </SheetLink>
-            <SheetLink href="/#experience" onClick={() => setOpen(false)}>
-              Experience
-            </SheetLink>
-            <SheetLink href="/#skills" onClick={() => setOpen(false)}>
-              Skills
-            </SheetLink>
-            <SheetLink href="/#github-activity" onClick={() => setOpen(false)}>
-              GitHub
-            </SheetLink>
-            <SheetLink href="/writing" onClick={() => setOpen(false)}>
-              Writing
-            </SheetLink>
-            <SheetLink href="/#contact" onClick={() => setOpen(false)}>
-              Contact
-            </SheetLink>
-          </div>
+          </nav>
         </div>
       </div>
-    </>
+      <noscript>
+        <style>{'.mobile-menu-toggle { display: none; }'}</style>
+        <nav aria-label="Mobile navigation" className="flex flex-wrap justify-center gap-5 border-t border-[var(--color-line)] px-5 py-3 text-sm md:hidden">
+          {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
+        </nav>
+      </noscript>
+    </header>
   );
 }
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link href={href} className="hover:text-[--color-primary] transition">
-      {children}
-    </Link>
-  );
-}
-
-function SheetLink({
-  href,
-  children,
-  onClick,
-}: {
-  href: string;
-  children: React.ReactNode;
-  onClick: () => void;
-}) {
-  return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="py-3 text-lg font-medium text-[--color-primary] hover:opacity-80 transition"
-    >
-      {children}
-    </Link>
-  );
-}
-
