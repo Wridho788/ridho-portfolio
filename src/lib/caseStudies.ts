@@ -17,6 +17,41 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
+    slug: 'arus',
+    title: 'Arus — Personal Finance',
+    summary:
+      'A working personal finance demo that connects transaction entry, monthly summaries, and category budgets, with browser persistence and explicit recovery when storage fails.',
+    overview:
+      'Income, expenses, and budgets are easier to review when they share one monthly view. Arus explores that workflow through a public landing page and a responsive app with clearly labeled example data. It is a portfolio demo, with no accounts, bank connections, payments, or cloud backup.',
+    contribution: [
+      'Built the landing page and app flows for creating, editing, deleting, filtering, and searching transactions, plus monthly category budgets and a confirmed demo reset.',
+      'Kept dashboard totals, expense categories, and budget progress derived from the same records and selected month.',
+      'Implemented responsive transaction cards, keyboard navigation, dialog focus management, and inline validation and save errors.',
+      'Added unit and browser checks, production smoke journeys, and repeatable screenshots of the actual production build.',
+    ],
+    highlights: [
+      'A versioned localStorage repository keeps persistence outside the UI. New state is published only after a successful write, so a failed save does not appear successful.',
+      'Integer rupiah amounts and local calendar date strings keep money calculations and monthly grouping predictable.',
+      'Playwright exercises CRUD, reload persistence, reset, failure recovery, keyboard interactions, and responsive layouts. Vitest covers domain and repository behavior.',
+    ],
+    challenges: [
+      'Browser storage makes the demo immediately usable without sign-in, but records belong to one browser and origin. Clearing site data removes them; cross-device sync is outside the MVP.',
+      'React Strict Mode exposed a dialog lifecycle issue. The fix keeps close handling current and restores focus to the trigger after the dialog closes.',
+      'Dense transaction tables are difficult to use on narrow screens, so the phone layout presents records as cards while preserving filters and edit/delete actions.',
+      'The visual direction was inspired by Outcrowd\'s personal finance landing page. Arus has its own product copy, layout implementation, and CSS illustrations, with Lucide icons.',
+    ],
+    impact: [
+      'Reviewers can use the public demo to change transactions and budgets, reload to confirm persistence, and reset the example data.',
+      'On October 4, 2026, the production preview passed 23 Chromium tests and the Vercel deployment passed two desktop/phone smoke journeys, including direct /app access. Earlier unit verification passed 12 tests.',
+      'Viewport checks cover 360px, 768px, and 1440px. Physical devices, Safari, Firefox, and assistive technology remain unverified; no user adoption or financial impact is claimed.',
+    ],
+    stack: ['React', 'TypeScript', 'Vite', 'CSS', 'localStorage', 'Vitest', 'Playwright', 'Vercel'],
+    image: '/images/arus-dashboard.png',
+    imageFit: 'contain',
+    liveDemo: 'https://arus-web.vercel.app/app',
+    github: 'https://github.com/Wridho788/arus',
+  },
+  {
     slug: 'lapakbenz',
     title: 'LapakBenz',
     summary:

@@ -16,6 +16,21 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: 'Arus',
+    slug: 'arus',
+    kind: 'Independent build · Public code',
+    description: 'A personal finance demo for recording income and expenses, reviewing monthly cash flow, and planning category budgets in rupiah.',
+    role: 'Frontend developer',
+    highlight: 'Built persistent transaction and budget flows, responsive layouts, and browser tests covering real interactions and storage failures.',
+    stack: ['React', 'TypeScript', 'Vite', 'Vitest', 'Playwright'],
+    image: '/images/arus-dashboard.png',
+    imageFit: 'contain',
+    imageContext: 'Arus dashboard with example data. Records stay in the current browser; there is no bank connection or cloud sync.',
+    featured: true,
+    liveDemo: 'https://arus-web.vercel.app/app',
+    github: 'https://github.com/Wridho788/arus',
+  },
+  {
     title: 'LapakBenz',
     slug: 'lapakbenz',
     kind: 'Independent build · Public code',
