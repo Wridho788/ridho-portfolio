@@ -193,10 +193,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <>
       <Navigation />
       <main id="main-content">
-        <article className="site-container max-w-[780px] py-15 md:py-20">
+        <article className="site-container max-w-[780px] pb-15 pt-28 md:pb-20 md:pt-32">
           <Link href="/writing" className="text-link text-sm">← All writing</Link>
           <header className="mt-13 border-b border-[var(--color-line)] pb-10">
-            <p className="section-kicker mb-4">Field notes</p>
+            <p className="section-kicker mb-4">(Field notes)</p>
             <h1 className="text-4xl font-bold leading-tight md:text-5xl">{post.title}</h1>
             <time dateTime={post.date} className="mt-5 block text-sm text-[var(--color-textMuted)]">
               {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
