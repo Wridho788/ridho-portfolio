@@ -75,8 +75,10 @@ try {
   await cdp('Emulation.setTouchEmulationEnabled', { enabled: true, maxTouchPoints: 1 });
   await cdp('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
   await cdp('Page.navigate', { url: base });
-  await waitFor("document.querySelectorAll('.slider-controls button').length === 8");
-  const expected = [['Selected work', 3], ['More product work', 4], ['Capabilities', 3], ['Writing', 2]];
+  await waitFor("document.querySelectorAll('.slider-controls button').length === 6");
+  const expected = [['Selected work', 9], ['Capabilities', 3], ['Writing', 5]];
+  // Writing stays a slider on desktop too; the others become grids from 768px.
+  const alwaysSliders = ['Writing'];
   for (const [label, count] of expected) {
     await scrollTo(label);
     assert.equal(await evaluate(`${track(label)}.children.length`), count, `${label}: all content is retained`);
@@ -105,7 +107,7 @@ try {
   await pause(650);
   await swipeLeft();
   await waitFor(`${status('Capabilities')}.includes('item 2 of 3')`);
-  assert.ok(await evaluate(`${status('Selected work')}.includes('item 1 of 3')`), 'Sliders move independently');
+  assert.ok(await evaluate(`${status('Selected work')}.includes('item 1 of 9')`), 'Sliders move independently');
   await pause(650);
   const settled = await evaluate(`${track('Capabilities')}.scrollLeft`);
   await pause(1000);
@@ -113,7 +115,7 @@ try {
 
   await scrollTo('Writing');
   await evaluate(`${track('Writing')}.children[1].querySelector('a').focus()`);
-  await waitFor(`${status('Writing')}.includes('item 2 of 2')`);
+  await waitFor(`${status('Writing')}.includes('item 2 of 5')`);
   assert.ok(await evaluate("document.activeElement.getBoundingClientRect().left >= 0 && document.activeElement.getBoundingClientRect().right <= innerWidth"), 'Focused links are fully visible');
 
   for (const width of [320, 390, 767, 768, 1440]) {
@@ -122,7 +124,10 @@ try {
     assert.ok(await evaluate('document.documentElement.scrollWidth <= innerWidth'), `No page overflow at ${width}px`);
     for (const [label] of expected) {
       if (width < 768) assert.ok(await evaluate(`${track(label)}.scrollWidth > ${track(label)}.clientWidth`));
-      else {
+      else if (alwaysSliders.includes(label)) {
+        assert.ok(await evaluate(`${track(label)}.scrollWidth > ${track(label)}.clientWidth`), `${label}: desktop keeps its slider`);
+        assert.notEqual(await evaluate(`getComputedStyle(${region(label)}.querySelector('.slider-controls')).display`), 'none', `${label}: desktop shows controls`);
+      } else {
         assert.ok(await evaluate(`${track(label)}.scrollWidth <= ${track(label)}.clientWidth + 1`), `${label}: desktop is not clipped`);
         assert.equal(await evaluate(`getComputedStyle(${region(label)}.querySelector('.slider-controls')).display`), 'none');
       }
@@ -132,7 +137,7 @@ try {
 
   await viewport(390);
   await cdp('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
-  await waitFor("document.querySelectorAll('.slider-controls button').length === 8");
+  await waitFor("document.querySelectorAll('.slider-controls button').length === 6");
   await evaluate(`${track('Capabilities')}.focus()`);
   await key('Home');
   await waitFor(`${status('Capabilities')}.includes('item 1 of 3')`);
