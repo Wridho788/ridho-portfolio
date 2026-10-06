@@ -3,6 +3,13 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
+// `data-reveal` variants: headings rise out of a mask, photos open from the bottom edge.
+const variants: Record<string, { keyframes: Keyframe[]; duration: number }> = {
+  fade: { keyframes: [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }], duration: 480 },
+  mask: { keyframes: [{ clipPath: 'inset(0 0 100% 0)', transform: 'translateY(32px)' }, { clipPath: 'inset(0 0 -10% 0)', transform: 'translateY(0)' }], duration: 650 },
+  clip: { keyframes: [{ clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0 0 0 0)' }], duration: 700 },
+};
+
 /** Enhance visible HTML; never leave content dependent on an observer to appear. */
 export default function MotionEffects() {
   const pathname = usePathname();
@@ -19,10 +26,13 @@ export default function MotionEffects() {
         observer.unobserve(entry.target);
         if (preference.matches || entry.target.contains(document.activeElement)) continue;
         const element = entry.target as HTMLElement;
-        const animation = element.animate(
-          [{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'translateY(0)' }],
-          { duration: 480, delay: Number(element.dataset.revealDelay || 0), easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' },
-        );
+        const variant = variants[element.dataset.reveal || ''] || variants.fade;
+        const animation = element.animate(variant.keyframes, {
+          duration: variant.duration,
+          delay: Number(element.dataset.revealDelay || 0),
+          easing: 'cubic-bezier(.22, 1, .36, 1)',
+          fill: 'backwards',
+        });
         animations.set(element, animation);
         animation.onfinish = () => animations.delete(element);
       }

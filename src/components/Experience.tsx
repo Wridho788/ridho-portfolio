@@ -38,27 +38,24 @@ export default function Experience() {
   }, []);
 
   return (
-    <section id="experience" className="border-y border-[var(--color-line)] bg-white py-20 md:py-26">
-      <div className="site-container grid gap-11 lg:grid-cols-[.65fr_1.35fr]">
-        <div data-reveal>
-          <p className="section-kicker mb-3">02 / Experience</p>
-          <h2 className="text-4xl font-bold md:text-5xl">Built across contexts.</h2>
-          <p className="mt-6 max-w-sm leading-relaxed text-[var(--color-textMuted)]">From native Android and internal systems to frontend architecture and test automation.</p>
-          <a href="/Ridho-CV.pdf" download className="text-link mt-6 inline-block text-sm">Download the full CV ↗</a>
-        </div>
-        <ol ref={timelineRef} className="experience-timeline border-t border-[var(--color-line)]">
-          {experiences.map((item) => (
-            <li key={`${item.company}-${item.role}`} className="timeline-entry grid gap-3 border-b border-[var(--color-line)] py-6 sm:grid-cols-[155px_1fr] sm:gap-6">
-              <p className="text-xs font-bold uppercase tracking-wide text-[var(--color-primary)]">{item.period}</p>
-              <div>
-                <h3 className="text-lg font-bold">{item.role}</h3>
-                <p className="mt-1 text-sm font-semibold text-[var(--color-accent)]">{item.company}</p>
-                <p className="mt-3 leading-relaxed text-[var(--color-textMuted)]">{item.summary}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+    <div id="experience" className="mt-20 grid gap-8 border-t border-[var(--color-line)] pt-12 md:mt-28 lg:grid-cols-[.65fr_1.35fr] lg:gap-16">
+      <div>
+        <p className="section-kicker mb-4">(Experience)</p>
+        <h3 data-reveal="mask" className="text-3xl font-bold leading-tight md:text-4xl">Built across contexts.</h3>
+        <p className="mt-5 max-w-sm leading-relaxed text-[var(--color-textMuted)]">From native Android and internal systems to frontend architecture and test automation.</p>
       </div>
-    </section>
+      <ol ref={timelineRef} className="experience-timeline">
+        {experiences.map((item, index) => (
+          <li key={`${item.company}-${item.role}`} data-reveal data-reveal-delay={index * 60} className="timeline-entry grid gap-2 py-6 sm:grid-cols-[170px_1fr] sm:gap-6">
+            <p className="text-sm font-medium text-[var(--color-textMuted)]">{item.period}</p>
+            <div>
+              <h4 className="text-lg font-bold">{item.role}</h4>
+              <p className="mt-1 text-sm font-semibold">{item.company}</p>
+              <p className="mt-3 leading-relaxed text-[var(--color-textMuted)]">{item.summary}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
