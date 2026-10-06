@@ -13,6 +13,9 @@ export type CaseStudy = {
   imageFit?: 'cover' | 'contain';
   liveDemo?: string;
   github?: string;
+  /** Additional screenshots shown as a scrollable strip, e.g. phone screens of a mobile app. */
+  gallery?: { src: string; alt: string }[];
+  download?: { href: string; label: string; note: string };
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -50,6 +53,54 @@ export const caseStudies: CaseStudy[] = [
     imageFit: 'contain',
     liveDemo: 'https://arus-web.vercel.app/app',
     github: 'https://github.com/Wridho788/arus',
+  },
+  {
+    slug: 'ravacollect',
+    title: 'RavaCollect — Digital Art Collection',
+    summary:
+      'An offline React Native app for exploring artworks and building a personal collection with demo credits, where every purchase and listing change is saved atomically in on-device SQLite.',
+    overview:
+      'Collecting apps often blur browsing, spending, and ownership. RavaCollect explores that journey on Android with a clear, local-only model: a 1,000-credit demo balance, a small catalog of original artworks, and listings that stay on the device. It is a portfolio demo with no accounts, wallet, blockchain, real payments, or backend.',
+    contribution: [
+      'Built discovery with search, category filters, and price sorting, plus artwork detail, favorites, purchase confirmation, collection, activity history, and a confirmed demo reset.',
+      'Implemented local listings for owned works: draft, edit, publish/unpublish, and delete, without changing the balance or ownership.',
+      'Designed the SQLite schema, seed data, and repository, keeping database access out of the screens.',
+      'Wrote integration, unit, and Maestro tests, and set up a separate Android build variant for fault injection.',
+    ],
+    highlights: [
+      'A purchase runs in one SQLite transaction: check the operation ID, price, ownership, and balance, then write the purchase, ledger debit, ownership, and activity before committing. The UI updates only after commit.',
+      'The balance is derived from a credit ledger rather than stored separately. Writes are serialized, and a stable operation ID makes a double tap or replay return the original result instead of buying twice.',
+      'An E2E build variant with its own app ID and entry point can inject SQL failures inside repository transactions. The release build excludes these controls, and a Gradle task plus a bundle check confirm it.',
+      'Integration tests run against real SQLite to cover balances, ownership, rollback, replay, and concurrent purchases. Maestro tests the installed app, including relaunches without clearing data.',
+    ],
+    challenges: [
+      'Keeping everything on the device means the app works offline and needs no sign-in, but the data belongs to one installation. Sync, accounts, and real payments are out of scope.',
+      'Listings simulate selling without inventing buyers or revenue, so publishing never changes the balance or removes ownership.',
+      'A failed write must never look successful. Each fault-injection case checks that the error is shown, the balance and records stay unchanged, and nothing extra appears after a relaunch.',
+      'Native builds hit Windows path-length limits in the C++ toolchain, so native output was moved to a short cache path. Testing then targeted a physical ARM64 phone instead of an emulator.',
+    ],
+    impact: [
+      'Reviewers can install the APK on an Android phone, collect an artwork, relaunch to confirm it was saved, and reset the demo data.',
+      'On October 6, 2026, five Maestro journeys passed on a Samsung Galaxy A12 (Android 12) using the E2E build, covering purchase, listings, discovery, favorites, failure recovery, and reset. Three journeys also passed on the release APK with airplane mode on and no Metro server.',
+      '19 SQLite integration tests and 5 UI tests pass. iOS, other screen sizes, TalkBack, and large font scaling remain unverified; no user adoption is claimed.',
+    ],
+    stack: ['React Native', 'TypeScript', 'Android', 'SQLite (op-sqlite)', 'React Navigation', 'Jest', 'Maestro'],
+    image: '/images/ravacollect/home.webp',
+    imageFit: 'contain',
+    gallery: [
+      { src: '/images/ravacollect/detail.webp', alt: 'Artwork detail for Lumen showing its 250-credit price and available balance.' },
+      { src: '/images/ravacollect/purchase-confirm.webp', alt: 'Purchase review showing the current balance, price, and remaining balance before confirming.' },
+      { src: '/images/ravacollect/purchase-success.webp', alt: 'Purchase success screen showing Lumen in the collection and a 750-credit balance.' },
+      { src: '/images/ravacollect/collection.webp', alt: 'Collection tab listing the owned artworks Orbit and Lumen.' },
+      { src: '/images/ravacollect/listing.webp', alt: 'Local listing form for Orbit, published on this device only, with price and description.' },
+      { src: '/images/ravacollect/activity.webp', alt: 'Activity tab showing the saved purchase of Lumen for 250 demo credits.' },
+    ],
+    github: 'https://github.com/Wridho788/ravacollect',
+    download: {
+      href: '/downloads/ravacollect-1.0-arm64.apk',
+      label: 'Download APK',
+      note: 'Android 7.0+ · 64-bit ARM · 24 MB. Sideloaded demo build; Android will ask you to allow installs from your browser.',
+    },
   },
   {
     slug: 'lapakbenz',

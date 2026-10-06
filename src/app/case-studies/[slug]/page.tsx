@@ -55,13 +55,15 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[var(--color-textMuted)]">{study.summary}</p>
               <div className="mt-7 flex flex-wrap gap-3">
                 {study.liveDemo && <a href={study.liveDemo} target="_blank" rel="noopener noreferrer" className="button-primary">Explore live demo ↗</a>}
+                {study.download && <a href={study.download.href} download className="button-primary">{study.download.label} ↓</a>}
                 {study.github && <a href={study.github} target="_blank" rel="noopener noreferrer" className="button-secondary">Browse source code ↗</a>}
               </div>
+              {study.download && <p className="mt-3 text-sm text-[var(--color-textMuted)]">{study.download.note}</p>}
             </div>
             <dl className="grid gap-4 rounded-lg bg-white p-5 text-sm">
               <div><dt className="section-kicker mb-1">Role</dt><dd className="font-semibold">{project.role}</dd></div>
               <div><dt className="section-kicker mb-1">Platform</dt><dd className="font-semibold">{study.stack.slice(0, 3).join(' / ')}</dd></div>
-              <div><dt className="section-kicker mb-1">Access</dt><dd className="font-semibold">{study.github ? 'Public source and demo' : 'Private professional project'}</dd></div>
+              <div><dt className="section-kicker mb-1">Access</dt><dd className="font-semibold">{study.github ? 'Public source and demo' : study.download ? 'Installable demo build' : 'Private professional project'}</dd></div>
             </dl>
           </header>
 
@@ -72,6 +74,22 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </div>
               <figcaption className="border-t border-[var(--color-line)] bg-white px-5 py-3 text-sm text-[var(--color-textMuted)]">{project.imageContext}</figcaption>
             </figure>
+          )}
+
+          {study.gallery && (
+            <section aria-labelledby="screens-heading" className="mb-12">
+              <h2 id="screens-heading" className="section-kicker mb-4">Screens</h2>
+              <ul className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3">
+                {study.gallery.map((shot) => (
+                  <li key={shot.src} className="w-44 shrink-0 snap-start md:w-52">
+                    <figure className="overflow-hidden rounded-xl border border-[var(--color-line)] bg-[#e6ece9]">
+                      <Image src={shot.src} alt={shot.alt} width={720} height={1600} sizes="208px" className="h-auto w-full" />
+                      <figcaption className="border-t border-[var(--color-line)] bg-white px-3 py-2 text-xs leading-relaxed text-[var(--color-textMuted)]">{shot.alt}</figcaption>
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            </section>
           )}
 
           <div className="mx-auto max-w-4xl">

@@ -35,6 +35,7 @@ export default function ProjectCard({ project, compact = false, index = 0 }: { p
           <CaseStudyLink href={`/case-studies/${project.slug}/`} className="text-link project-link">Read case study <span aria-hidden="true">↗</span></CaseStudyLink>
           {project.liveDemo && <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="text-link">Live demo ↗</a>}
           {project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">Source code ↗</a>}
+          {project.download && <a href={project.download} download className="text-link">Download APK ↓</a>}
         </div>
       </div>
     </article>

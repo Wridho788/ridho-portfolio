@@ -53,6 +53,7 @@ With the same preview and Chrome setup, run `node scripts/verify-sliders.mjs` fo
 - `src/lib/caseStudies.ts` supplies case study content. Add a corresponding entry when adding a project card.
 - `src/lib/experience.ts` contains employment dates and summaries; keep it aligned with `public/Ridho-CV.pdf`.
 - `src/lib/posts.ts` lists articles; full article content lives in `src/app/writing/[slug]/page.tsx`.
+- `public/downloads/` holds installable demo builds linked through a project's `download` field (currently the RavaCollect Android APK). Rebuild and replace the file rather than keeping old versions in Git history.
 - `public/images/` contains original project screenshots. Captions indicate when an image is from a wider product ecosystem rather than the exact flow described.
 - `scripts/generate_og.py` regenerates the Open Graph banner and favicon. `scripts/generate_cv.py` regenerates the selectable CV.
 

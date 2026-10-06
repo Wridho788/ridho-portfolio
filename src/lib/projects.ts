@@ -12,6 +12,8 @@ export type Project = {
   featured?: boolean;
   liveDemo?: string;
   github?: string;
+  /** Direct download for an installable build, e.g. an Android APK in public/downloads. */
+  download?: string;
 };
 
 export const projects: Project[] = [
@@ -29,6 +31,21 @@ export const projects: Project[] = [
     featured: true,
     liveDemo: 'https://arus-web.vercel.app/app',
     github: 'https://github.com/Wridho788/arus',
+  },
+  {
+    title: 'RavaCollect',
+    slug: 'ravacollect',
+    kind: 'Independent build · Public code',
+    description: 'An offline Android app for discovering artworks, saving favorites, collecting with demo credits, and managing local listings.',
+    role: 'Mobile developer',
+    highlight: 'Built atomic SQLite purchase and listing flows, a separate fault-injection build, and Maestro journeys verified on a physical Android phone.',
+    stack: ['React Native', 'TypeScript', 'SQLite', 'Maestro'],
+    image: '/images/ravacollect/home.webp',
+    imageFit: 'contain',
+    imageContext: 'RavaCollect home screen on a Samsung Galaxy A12. Credits are demo-only; there is no wallet, payment, or backend.',
+    featured: true,
+    github: 'https://github.com/Wridho788/ravacollect',
+    download: '/downloads/ravacollect-1.0-arm64.apk',
   },
   {
     title: 'LapakBenz',
