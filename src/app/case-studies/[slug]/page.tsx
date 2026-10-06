@@ -5,6 +5,7 @@ import Image from 'next/image';
 import CaseStudyLink from '@/components/CaseStudyLink';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { site } from '@/lib/site';
 
 export function generateStaticParams() {
   return caseStudies.map(({ slug }) => ({ slug }));
@@ -45,7 +46,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
     <>
       <Navigation />
       <main id="main-content">
-        <div className="site-container pb-20 pt-13 md:pt-18">
+        <div className="site-container pb-20 pt-28 md:pt-32">
           <CaseStudyLink href="/#projects" className="text-link text-sm">← All work</CaseStudyLink>
 
           <header className="mt-11 grid gap-9 border-b border-[var(--color-line)] pb-11 md:grid-cols-[1.45fr_.55fr] md:items-end">
@@ -60,7 +61,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </div>
               {study.download && <p className="mt-3 text-sm text-[var(--color-textMuted)]">{study.download.note}</p>}
             </div>
-            <dl className="grid gap-4 rounded-lg bg-white p-5 text-sm">
+            <dl className="grid gap-4 rounded-2xl bg-[var(--color-surface)] p-6 text-sm">
               <div><dt className="section-kicker mb-1">Role</dt><dd className="font-semibold">{project.role}</dd></div>
               <div><dt className="section-kicker mb-1">Platform</dt><dd className="font-semibold">{study.stack.slice(0, 3).join(' / ')}</dd></div>
               <div><dt className="section-kicker mb-1">Access</dt><dd className="font-semibold">{study.github ? 'Public source and demo' : study.download ? 'Installable demo build' : 'Private professional project'}</dd></div>
@@ -68,21 +69,21 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           </header>
 
           {study.image && (
-            <figure className="my-12 overflow-hidden rounded-xl border border-[var(--color-line)] bg-[#e6ece9]">
+            <figure className="my-12 overflow-hidden rounded-2xl bg-[var(--color-panel)]">
               <div style={{ viewTransitionName: `project-${project.slug}` }} className={`project-preview relative overflow-hidden ${study.imageFit === 'contain' ? 'h-100 md:h-130' : 'h-65 md:h-115'}`}>
                 <Image src={study.image} alt={project.imageContext} fill sizes="(min-width: 1160px) 1160px, 100vw" className={study.imageFit === 'contain' ? 'object-contain p-5 md:p-8' : 'object-cover'} priority />
               </div>
-              <figcaption className="border-t border-[var(--color-line)] bg-white px-5 py-3 text-sm text-[var(--color-textMuted)]">{project.imageContext}</figcaption>
+              <figcaption className="border-t border-[#262626] px-5 py-3 text-sm text-[var(--color-panelMuted)]">{project.imageContext}</figcaption>
             </figure>
           )}
 
           {study.gallery && (
             <section aria-labelledby="screens-heading" className="mb-12">
-              <h2 id="screens-heading" className="section-kicker mb-4">Screens</h2>
+              <h2 id="screens-heading" className="section-kicker mb-4">(Screens)</h2>
               <ul className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3">
                 {study.gallery.map((shot) => (
                   <li key={shot.src} className="w-44 shrink-0 snap-start md:w-52">
-                    <figure className="overflow-hidden rounded-xl border border-[var(--color-line)] bg-[#e6ece9]">
+                    <figure className="overflow-hidden rounded-xl border border-[var(--color-line)] bg-[var(--color-surface)]">
                       <Image src={shot.src} alt={shot.alt} width={720} height={1600} sizes="208px" className="h-auto w-full" />
                       <figcaption className="border-t border-[var(--color-line)] bg-white px-3 py-2 text-xs leading-relaxed text-[var(--color-textMuted)]">{shot.alt}</figcaption>
                     </figure>
@@ -105,14 +106,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
             <div className="border-t border-[var(--color-line)] py-9">
               <p className="section-kicker mb-4">Tools used</p>
               <div className="flex flex-wrap gap-2">
-                {study.stack.map((item) => <span key={item} className="rounded-full border border-[var(--color-line)] bg-white px-3 py-1.5 text-xs font-semibold">{item}</span>)}
+                {study.stack.map((item) => <span key={item} className="rounded-full bg-[var(--color-surface)] px-3 py-1.5 text-xs font-semibold">{item}</span>)}
               </div>
             </div>
-            <div className="mt-5 rounded-xl bg-[#dfeae6] p-7 md:p-9">
+            <div className="mt-5 rounded-2xl bg-[var(--color-glow)] p-7 md:p-9">
               <p className="section-kicker mb-3">Next step</p>
               <h2 className="text-2xl font-bold">Have a similar problem to solve?</h2>
               <p className="mt-3 text-[var(--color-textMuted)]">Tell me about the users, constraints, and what needs to work reliably.</p>
-              <a href="mailto:wridho246@gmail.com" className="button-primary mt-6">Email Ridho ↗</a>
+              <a href={`mailto:${site.email}`} className="button-primary mt-6">Email Ridho <span aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>

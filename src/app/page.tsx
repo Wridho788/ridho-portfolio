@@ -1,8 +1,9 @@
 import Hero from '@/components/Hero';
 import Projects from '@/components/Projects';
-import Experience from '@/components/Experience';
+import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Writing from '@/components/Writing';
+import FAQ from '@/components/FAQ';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation';
@@ -14,9 +15,10 @@ export default function Home() {
       <main id="main-content">
         <Hero />
         <Projects />
-        <Experience />
+        <About />
         <Skills />
         <Writing />
+        <FAQ />
         <Contact />
       </main>
       <Footer />

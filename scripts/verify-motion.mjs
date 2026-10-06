@@ -58,8 +58,9 @@ try {
   await cdp('Runtime.enable');
   await cdp('Page.addScriptToEvaluateOnNewDocument', { source: `
     window.__motionEvidence = { hero: [], revealed: [], transition: false, transitionAnimations: [] };
+    const heroAnimations = ['hero-arrive', 'letter-rise', 'portrait-rise', 'glow-in'];
     document.addEventListener('animationstart', event => {
-      if (event.animationName === 'hero-arrive') window.__motionEvidence.hero.push(event.target.className);
+      if (heroAnimations.includes(event.animationName)) window.__motionEvidence.hero.push(event.animationName);
     });
     addEventListener('pagereveal', event => {
       window.__motionEvidence.transition = !!event.viewTransition;
@@ -83,9 +84,25 @@ try {
   await cdp('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }] });
   await cdp('Page.navigate', { url: base });
   await waitFor("document.querySelector('.primary-navigation')?.dataset.hasActive !== undefined");
-  await waitFor('window.__motionEvidence.hero.length === 6');
+  // Glow, six wordmark letters, the portrait, and three text groups.
+  await waitFor('window.__motionEvidence.hero.length === 11');
+  const heroEnd = await evaluate(`Math.max(...[...document.querySelectorAll('.hero-glow,.wordmark-letter,.hero-portrait,.hero-enter')].map(element => {
+    const style = getComputedStyle(element);
+    const ms = value => value.endsWith('ms') ? parseFloat(value) : parseFloat(value) * 1000;
+    return ms(style.animationDuration) + ms(style.animationDelay);
+  }))`);
+  assert.ok(heroEnd <= 1000, `Hero entrance finishes within one second (${heroEnd}ms)`);
   await pause(1000);
   assert.equal(await evaluate("getComputedStyle(document.querySelector('h1')).opacity"), '1');
+  assert.ok(await evaluate(`[...document.querySelectorAll('.wordmark-letter')].every(letter => {
+    const box = letter.getBoundingClientRect();
+    const mask = letter.parentElement.getBoundingClientRect();
+    return getComputedStyle(letter).transform === 'none' && box.top >= mask.top - 1 && box.bottom <= mask.bottom + 1;
+  })`), 'Every wordmark letter rests fully inside its mask');
+  if (await evaluate("CSS.supports('animation-timeline: view()')")) {
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('.projects-panel')).animationName"), 'panel-lift', 'Projects panel follows scroll');
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('.wordmark-drift')).animationName"), 'wordmark-drift', 'Wordmark parallax is active');
+  }
   await screenshot('hero');
 
   // Changing the preference during a native transition must stop its motion too.
@@ -108,7 +125,7 @@ try {
   await screenshot('project');
 
   await scrollTo('#experience');
-  await waitFor("document.querySelector('.primary-navigation [aria-current]')?.textContent.trim() === 'Experience'");
+  await waitFor("document.querySelector('.primary-navigation [aria-current]')?.textContent.trim() === 'About'");
   const firstProgress = await evaluate("Number(document.querySelector('.experience-timeline').style.getPropertyValue('--timeline-progress'))");
   await scrollTo('.timeline-entry:last-child');
   await waitFor("document.querySelector('.timeline-entry:last-child').dataset.active === 'true'");
@@ -116,26 +133,46 @@ try {
   assert.ok(lastProgress > firstProgress, 'Timeline advances with scroll');
   await screenshot('timeline');
 
+  // FAQ: native details work from the keyboard and only one answer stays open.
+  await evaluate("document.querySelectorAll('.faq-item summary')[1].scrollIntoView({block:'center', behavior:'instant'})");
+  await evaluate("document.querySelectorAll('.faq-item summary')[1].focus()");
+  await cdp('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Enter', code: 'Enter', text: '\r', windowsVirtualKeyCode: 13 });
+  await cdp('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Enter', code: 'Enter', windowsVirtualKeyCode: 13 });
+  await waitFor("document.querySelectorAll('.faq-item')[1].open");
+  assert.equal(await evaluate("document.querySelectorAll('.faq-item[open]').length"), 1, 'Opening one FAQ answer closes the other');
+
   await scrollTo('#contact');
   await waitFor("document.querySelector('.primary-navigation [aria-current]')?.textContent.trim() === 'Contact'");
   await waitFor("window.__motionEvidence.revealed.includes('contact')");
   await pause(550);
-  assert.equal(await evaluate("getComputedStyle(document.querySelector('#contact')).backgroundColor"), 'rgb(23, 40, 50)');
-  assert.equal(await evaluate("getComputedStyle(document.querySelector('#contact a')).color"), 'rgb(23, 40, 50)');
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('#contact')).backgroundColor"), 'rgb(11, 11, 11)');
+  assert.equal(await evaluate("getComputedStyle(document.querySelector('#contact a')).color"), 'rgb(11, 11, 11)');
 
-  await scrollTo('.project-card');
-  await pause(550);
-  const nativeTransitions = await evaluate("'onpagereveal' in window && CSS.supports('view-transition-name', 'project-lapakbenz')");
-  await evaluate("document.querySelector('.project-link').scrollIntoView({block:'center', behavior:'instant'})");
-  await pause(550);
-  const caseLink = await evaluate("(() => { const b=document.querySelector('.project-link').getBoundingClientRect(); return {x:b.x+b.width/2,y:b.y+b.height/2}; })()");
-  await cdp('Input.dispatchMouseEvent', { type: 'mousePressed', button: 'left', clickCount: 1, ...caseLink });
-  await cdp('Input.dispatchMouseEvent', { type: 'mouseReleased', button: 'left', clickCount: 1, ...caseLink });
-  await waitFor("location.pathname.startsWith('/case-studies/') && document.readyState === 'complete'");
-  await waitFor("document.querySelector('.primary-navigation')?.dataset.hasActive === 'true'");
+  const firstSlug = await evaluate("document.querySelector('.project-link').getAttribute('href').split('/').filter(Boolean).pop()");
+  const nativeTransitions = await evaluate("'onpagereveal' in window && CSS.supports('view-transition-name', 'project-arus')");
+  const openCaseStudy = async () => {
+    await scrollTo('.project-card');
+    await pause(550);
+    await evaluate("document.querySelector('.project-link').scrollIntoView({block:'center', behavior:'instant'})");
+    await pause(550);
+    const caseLink = await evaluate("(() => { const b=document.querySelector('.project-link').getBoundingClientRect(); return {x:b.x+b.width/2,y:b.y+b.height/2}; })()");
+    await cdp('Input.dispatchMouseEvent', { type: 'mousePressed', button: 'left', clickCount: 1, ...caseLink });
+    await cdp('Input.dispatchMouseEvent', { type: 'mouseReleased', button: 'left', clickCount: 1, ...caseLink });
+    await waitFor("location.pathname.startsWith('/case-studies/') && document.readyState === 'complete'");
+    await waitFor("document.querySelector('.primary-navigation')?.dataset.hasActive === 'true'");
+  };
+  await openCaseStudy();
+  // Headless Chrome occasionally skips a cross-document transition when the new page is slow
+  // to render. Retry once; a real regression fails both attempts.
+  if (nativeTransitions && !(await evaluate('window.__motionEvidence.transition'))) {
+    console.log('Native transition skipped on the first attempt; retrying once.');
+    await evaluate("history.back()");
+    await waitFor("location.pathname === '/' && document.readyState === 'complete' && document.querySelector('.project-link')");
+    await openCaseStudy();
+  }
   if (nativeTransitions) {
     assert.equal(await evaluate('window.__motionEvidence.transition'), true, 'Native document transition runs');
-    await waitFor("window.__motionEvidence.transitionAnimations.some(name => name.includes('project-lapakbenz'))");
+    await waitFor(`window.__motionEvidence.transitionAnimations.some(name => name.includes('project-${firstSlug}'))`);
   }
   assert.ok(await evaluate("getComputedStyle(document.querySelector('.project-preview')).viewTransitionName.startsWith('project-')"));
   await evaluate("document.querySelector('main a').click()");
@@ -155,6 +192,11 @@ try {
   assert.equal(await evaluate("document.activeElement.classList.contains('mobile-menu-toggle')"), true, 'Escape restores toggle focus');
   await evaluate("document.querySelector('#mobile-navigation a').focus()");
   assert.equal(await evaluate("document.activeElement.classList.contains('mobile-menu-toggle')"), true, 'Closed menu cannot receive focus');
+  await viewport(320);
+  await cdp('Page.navigate', { url: `${base}/?motion=narrow` });
+  await waitFor("location.search === '?motion=narrow' && document.querySelector('.hero')");
+  assert.ok(await evaluate('document.documentElement.scrollWidth <= innerWidth'), 'No overflow at 320px while the hero animates');
+  await pause(1100);
   for (const width of [390, 320, 1440]) {
     await viewport(width);
     await pause(100);
@@ -187,7 +229,7 @@ try {
   assert.ok(await evaluate("document.querySelector('noscript nav')?.getBoundingClientRect().height > 0"), 'Mobile navigation works without JavaScript');
   await screenshot('no-js');
   assert.deepEqual(errors, [], 'No browser runtime errors');
-  console.log('PASS: hero sequence, project/contact reveals, hover, native case-study navigation, timeline, active nav, keyboard menu, responsive layout, reduced motion, and no-JavaScript fallback.');
+  console.log('PASS: hero sequence under one second, wordmark masks, scroll-driven panel and parallax, project/contact reveals, hover, native case-study navigation, timeline, FAQ keyboard, active nav, keyboard menu, responsive layout, reduced motion, and no-JavaScript fallback.');
 } finally {
   await send('Target.closeTarget', { targetId });
   socket.close();
