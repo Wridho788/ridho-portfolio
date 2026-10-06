@@ -3,18 +3,28 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { site } from '@/lib/site';
 
 const links = [
   { href: '/#projects', label: 'Work', section: 'projects' },
-  { href: '/#experience', label: 'Experience', section: 'experience' },
+  { href: '/#about', label: 'About', section: 'about' },
   { href: '/writing', label: 'Writing', section: 'writing' },
   { href: '/#contact', label: 'Contact', section: 'contact' },
 ];
 
+function HomeIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 10.5 12 3l9 7.5" />
+      <path d="M5 9.5V20h14V9.5" />
+    </svg>
+  );
+}
+
 export default function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const [activeSection, setActiveSection] = useState('home');
   const buttonRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -28,6 +38,7 @@ export default function Navigation() {
       frame = 0;
       let section = pageSection;
       if (pathname === '/') {
+        section = 'home';
         const readingLine = Math.min(window.innerHeight * 0.35, 240);
         sections.forEach((element) => {
           if (element.getBoundingClientRect().top <= readingLine) section = element.id;
@@ -35,6 +46,7 @@ export default function Navigation() {
         if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4) section = 'contact';
         setActiveSection(section);
       }
+      if (headerRef.current) headerRef.current.dataset.scrolled = String(window.scrollY > 80);
       const nav = navRef.current;
       const link = nav?.querySelector<HTMLElement>(`[data-section="${section}"]`);
       if (nav) {
@@ -86,49 +98,50 @@ export default function Navigation() {
   };
 
   return (
-    <header ref={headerRef} className="site-header sticky top-0 z-50 border-b border-[var(--color-line)] bg-[var(--color-background)]/95 backdrop-blur-md">
-      <div className="site-container flex h-18 items-center justify-between gap-6">
-        <Link href="/" className="font-heading text-lg font-extrabold tracking-tight" onClick={() => setOpen(false)}>
-          Ridho<span className="text-[var(--color-primary)]">.</span>
-          <span className="sr-only"> Home</span>
-        </Link>
+    <header ref={headerRef} className="site-header">
+      <div className="nav-shell site-container">
+        <div className="nav-pill">
+          <Link href="/" className="nav-logo" onClick={() => setOpen(false)}>
+            Ridho<span>.</span>
+            <span className="sr-only"> Home</span>
+          </Link>
 
-        <nav ref={navRef} aria-label="Primary navigation" className="primary-navigation hidden items-center gap-8 md:flex">
-          {links.map((link) => (
-            <Link key={link.href} href={link.href} data-section={link.section} aria-current={active === link.section ? 'location' : undefined} className="nav-link py-3 text-sm font-semibold text-[var(--color-textMuted)] hover:text-[var(--color-primary)]">
-              {link.label}
+          <nav ref={navRef} aria-label="Primary navigation" className="primary-navigation">
+            <Link href="/" data-section="home" aria-current={active === 'home' ? 'location' : undefined} className="nav-link">
+              <HomeIcon />
+              <span className="sr-only">Home</span>
             </Link>
-          ))}
-          <span className="nav-indicator" aria-hidden="true" />
-        </nav>
-
-        <a href="mailto:wridho246@gmail.com" className="nav-contact hidden rounded-full border border-[var(--color-textMain)] px-4 py-2 text-xs font-bold hover:bg-[var(--color-textMain)] hover:text-white md:inline-flex">
-          Get in touch <span aria-hidden="true" className="ml-2">↗</span>
-        </a>
-
-        <button ref={buttonRef} type="button" aria-controls="mobile-navigation" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} className="mobile-menu-toggle inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-[var(--color-line)] md:hidden" onClick={() => setOpen((current) => !current)}>
-          <span className="menu-icon" data-open={open} aria-hidden="true"><span /><span /></span>
-        </button>
-      </div>
-
-      <div id="mobile-navigation" className="mobile-menu-panel md:hidden" data-open={open} inert={!open} aria-hidden={!open}>
-        <div className="mobile-menu-clip">
-          <nav aria-label="Mobile navigation" className="border-t border-[var(--color-line)] bg-[var(--color-background)] px-5 py-4 shadow-lg">
-            <div className="site-container flex flex-col">
-              {links.map((link) => (
-                <Link key={link.href} href={link.href} onClick={closeMenu} aria-current={active === link.section ? 'location' : undefined} className="nav-link border-b border-[var(--color-line)] py-3 font-semibold">{link.label}</Link>
-              ))}
-              <a href="mailto:wridho246@gmail.com" onClick={closeMenu} className="py-3 font-semibold text-[var(--color-primary)]">Email Ridho ↗</a>
-            </div>
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} data-section={link.section} aria-current={active === link.section ? 'location' : undefined} className="nav-link">
+                {link.label}
+              </Link>
+            ))}
+            <span className="nav-indicator" aria-hidden="true" />
           </nav>
+
+          <button ref={buttonRef} type="button" aria-controls="mobile-navigation" aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} className="mobile-menu-toggle" onClick={() => setOpen((current) => !current)}>
+            <span className="menu-icon" data-open={open} aria-hidden="true"><span /><span /></span>
+          </button>
+
+          <noscript>
+            <style>{'.mobile-menu-toggle { display: none !important; }'}</style>
+            <nav aria-label="Mobile navigation" className="noscript-nav">
+              {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
+            </nav>
+          </noscript>
+
+          <div id="mobile-navigation" className="mobile-menu-panel" data-open={open} inert={!open} aria-hidden={!open}>
+            <div className="mobile-menu-clip">
+              <nav aria-label="Mobile navigation" className="bg-[var(--color-textMain)] px-5 py-3 shadow-xl">
+                {links.map((link) => (
+                  <Link key={link.href} href={link.href} onClick={closeMenu} aria-current={active === link.section ? 'location' : undefined} className="mobile-nav-link">{link.label}</Link>
+                ))}
+                <a href={`mailto:${site.email}`} onClick={closeMenu} className="flex min-h-12 items-center font-semibold text-[#6cc3b4]">Email Ridho ↗</a>
+              </nav>
+            </div>
+          </div>
         </div>
       </div>
-      <noscript>
-        <style>{'.mobile-menu-toggle { display: none; }'}</style>
-        <nav aria-label="Mobile navigation" className="flex flex-wrap justify-center gap-5 border-t border-[var(--color-line)] px-5 py-3 text-sm md:hidden">
-          {links.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
-        </nav>
-      </noscript>
     </header>
   );
 }
